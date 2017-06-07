@@ -50,9 +50,8 @@ HALP
             'checkval' => sub {
                 my $value = shift;
                 my @addrs = split( ",", $value );
-                # Pick out bogus values
-                require Email::Vaild;
-                @addrs = grep { Email::Valid->address($_) } @addrs;
+                # Pick out bogus values, usernames usually have an '@' symbol, but I can't use Email::Valid here for some reason
+                @addrs = grep { index( $_, '@' ) != -1 } @addrs;
                 return join( ",", @addrs );
             },
             'label' => 'XMPP Notification Destinations',
