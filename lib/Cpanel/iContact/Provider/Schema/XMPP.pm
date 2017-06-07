@@ -33,7 +33,7 @@ If set improperly, this will cause sending notifications to fail.
 HALP
     my $help5 = <<HALP;
 <p>Whether or not the XMPP server your Notification User is registered at has a valid TLS Certificate.<br />
-Setting this option to true will cause the notification to no longer fail if it encounters a self-signed certificate,
+Setting this option to "Off" will cause the notification to no longer fail if it encounters a self-signed certificate,
 as an example.
 </p>
 HALP
