@@ -26,7 +26,7 @@ sub send {
                 'destination' => $destination,
                 'subject' => $subject,
                 'content' => $body
-            ) || die "Sending to $destination failed: " . $self->_last_error();
+            );
         };
         push( @errs, $@ ) if $@;
     }

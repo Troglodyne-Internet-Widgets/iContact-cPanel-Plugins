@@ -5,6 +5,7 @@ Still somewhat WIP, for now only has 'alpha' quality XMPP provider
 Plans for the future in TODO
 
 Steps 4 GreatSuccess:
+* Clone this repo with git onto a cPanel host of at least 11.62+
 * Run the Tests
     make test
 
