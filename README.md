@@ -2,10 +2,11 @@
 Extra "Contact Manager" Providers for cPanel and WHM
 
 Still somewhat WIP, for now only has 'alpha' quality XMPP provider
-Plans for the future in TODO
+
+Plans for the future can be read in TODO
 
 Steps 4 GreatSuccess:
-* Clone this repo with git onto a cPanel host of at least 11.62+
+* Clone this repo with git onto a cPanel host of at least 11.64+
 * Run the Tests
 
     make test
