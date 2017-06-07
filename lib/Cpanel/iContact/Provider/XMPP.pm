@@ -65,7 +65,7 @@ sub _send {
     my $status;
     {
         local $SIG{'ALRM'} = sub { die "Error: XMPP Connection failed: Timeout while attempting connection\n" };
-        $self->{'_xmpp_alarm'} ||= 10; # For tests
+        $self->{'_xmpp_alarm'} ||= 5; # For tests
         alarm $self->{'_xmpp_alarm'};
         $status = $xmpp_conn->Connect(
             'hostname'      => $srvr_name,
@@ -73,7 +73,7 @@ sub _send {
             'tls'           => $self->{'contact'}{'XMPPUSETLS'},
             'srv'           => 1,
             'ssl_ca_path'   => $cab_loc,
-            'ssl_verify'    => $self->{'contact'}{'XMPPTLSVERIFY'},
+            'ssl_verify'    => $self->{'contact'}{'XMPPVERIFYCERT'},
         );
         alarm 0;
     }
