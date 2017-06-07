@@ -15,7 +15,7 @@ as google talk has not supported SSL/TLS over server <-> server communications f
 <a href="https://stackoverflow.com/questions/18713955/ejabberd-s2s-to-gtalk-hangout-with-tls">quite some time</a>.
 HALP
     my $help2 = <<HALP;
-<p>The XMPP <em>user<em> you wish to send cPanel & WHM notifications <em>from</em>.<br />
+<p>The XMPP <em>user</em> you wish to send cPanel & WHM notifications <em>from</em>.<br />
 Example: "ali_baba&#64;thieves.den"</p>
 <p><strong>NOTE:</strong> If the recipient is not registered on the same XMPP server as you,
 you may need to contact the administrator of the server if sending to these users fail,
@@ -38,7 +38,7 @@ as an example.
 </p>
 HALP
     my $help6 = <<HALP;
-<p>Use this setting to override the hostname your Notification User's XMPP to be whatever the server
+<p>XMPP Component Name: Use this setting to override the hostname your Notification User's XMPP to be whatever the server
 <em>thinks</em> it actually is.<br />
 This can be used to avoid 'unknown hostname' errors when dealing with misconfigured XMPP servers or SRV records.
 </p>
