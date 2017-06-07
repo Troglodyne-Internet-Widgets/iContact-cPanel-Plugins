@@ -1,0 +1,11 @@
+XMPP provider:
+* Add Unit Tests
+* Add Functional Tests
+* Send to rooms? I haven't tried that
+* Register the user? Haven't tried that.
+
+Other Providers:
+* IRC
+* Discord
+* Slack (if I can't figure out how to get that mainlined with a good ext auth integration... their oauth is a pain)
+* ... Whatever else is hanging out on the feature site that sounds interesting
