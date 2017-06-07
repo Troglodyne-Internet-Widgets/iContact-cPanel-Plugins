@@ -5,7 +5,7 @@ use warnings;
 
 sub get_settings {
     my $help1 = <<HALP;
-<p>The XMPP <em>users<em> you wish to send cPanel & WHM notifications <em>to</em>.<br />
+<p>The XMPP <em>users</em> you wish to send cPanel & WHM notifications <em>to</em>.<br />
 For multiple addresses, delimit them with commas.<br />
 Example: "cronspam&#64;dev.null,some_schmoe&#64;jabber.org"</p>
 <p><strong>NOTE:</strong> Using a Gmail account may not work, as they deprecated XMPP in 2013.
@@ -83,7 +83,7 @@ HALP
         'XMPPCOMPONENTNAME' => {
             'type'     => 'text',
             'label' => 'XMPP Component Name',
-            'help' => $help5,
+            'help' => $help6,
         },
     };
 }
