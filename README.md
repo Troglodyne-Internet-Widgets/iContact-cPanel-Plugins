@@ -7,6 +7,11 @@ Plans for the future can be read in TODO
 
 Steps 4 GreatSuccess:
 * Clone this repo with git onto a cPanel host of at least 11.64+
+* Install Net::XMPP
+
+    cpan
+    install Net:XMPP
+
 * Run the Tests
 
     make test
