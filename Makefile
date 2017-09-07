@@ -4,5 +4,5 @@ install:
 	cp -f lib/Cpanel/iContact/Provider/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/
 
 test:
-	[ -x /usr/local/cpanel/3rdparty/bin/prove ] && /usr/local/cpanel/3rdparty/bin/prove t/*.t; /bin/true
-	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] && prove t/*.t; /bin/true
+	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] || /usr/local/cpanel/3rdparty/bin/prove t/*.t
+	[ -x /usr/local/cpanel/3rdparty/bin/prove ] || prove t/*.t
