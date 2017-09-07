@@ -5,8 +5,7 @@ XMPP provider:
 * Register the user? Haven't tried that.
 
 Slack Provider:
-* Add tests, remove Cpanel namespace deps from driver lib
-* Slack external auth module integration?
+* Add more tests, remove Cpanel namespace deps from driver lib
 
 Other Providers:
 * IRC
