@@ -1,7 +1,9 @@
 # iContact-cPanel-Plugins
 Extra "Contact Manager" Providers for cPanel and WHM
 
-Still somewhat WIP, for now only has 'alpha' quality XMPP provider
+Current plugins:
+* XMPP  -- Still somewhat WIP, for now only has 'alpha' quality XMPP provider (as I've received no external bug reports)
+* Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin. Also alpha quality
 
 Plans for the future can be read in TODO
 
