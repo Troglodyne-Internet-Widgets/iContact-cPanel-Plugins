@@ -2,12 +2,13 @@
 Extra "Contact Manager" Providers for cPanel and WHM
 
 Current plugins:
-* XMPP  -- Still somewhat WIP, for now only has 'alpha' quality XMPP provider (as I've received no external bug reports)
-* Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin. Also alpha quality
+================
+* XMPP  -- Stable XMPP provider (as I've received no external bug reports and it has worked well for me for over a month)
+* IRC   -- Still WIP, completely untested.
+* Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin.
 
-Plans for the future can be read in TODO
-
-Steps 4 GreatSuccess:
+Installation and Use:
+---------------------
 * Clone this repo with git onto a cPanel host of at least 11.64+
 * Run the Tests
 
@@ -20,5 +21,3 @@ Steps 4 GreatSuccess:
 * Go to WHM >> Basic Setup and configure the provider options
 * Go to WHM >> Contact Manager and make sure it is set up to spam you mercilessly
 * Do something to trigger notifications from cPanel & WHM
-
-Enjoy!
