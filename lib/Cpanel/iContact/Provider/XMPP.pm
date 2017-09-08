@@ -53,7 +53,7 @@ sub _send {
     my $xmpp_conn = Net::XMPP::Client->new(
         # Uncomment the below for debugging info
         #'debuglevel' => 2,
-        #'debugfile'  => "/usr/local/cpanel/logs/error_log",
+        #'debugfile'  => "/usr/local/cpanel/logs/iContact_XMPP_error_log",
     );
 
     require Mozilla::CA;
@@ -88,8 +88,7 @@ sub _send {
         'resource'    => 'cPanel & WHM',
     );
     if( !@result || $result[0] ne "ok" ) {
-        require Data::Dumper;
-        die("Error: XMPP authentication failed: " . Data::Dumper::Dumper($xmpp_conn->GetErrorCode()) );
+        die("Error: XMPP authentication failed: $result[1]" );
     }
 
     # TODO Error handling? There doesn't seem to be a good return from this sub.
