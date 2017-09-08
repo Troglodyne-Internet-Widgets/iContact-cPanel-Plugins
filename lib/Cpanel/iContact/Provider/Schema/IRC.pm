@@ -40,7 +40,7 @@ HALP
         'IRCUSESSL' => {
             'type'     => 'binary',
             'label' => 'IRC: Use SSL/TLS?',
-            'help' => $help4,
+            'help' => $help3,
         },
     };
 }
