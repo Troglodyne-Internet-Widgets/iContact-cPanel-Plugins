@@ -7,7 +7,11 @@ XMPP provider:
 Slack Provider:
 * Add more tests, remove Cpanel namespace deps from driver lib
 
+IRC Provider:
+* Make it actually work instead of being no-op on send, etc.
+* Add tests
+
 Other Providers:
-* IRC
 * Discord
+* Telegraph
 * ... Whatever else is hanging out on the feature site that sounds interesting

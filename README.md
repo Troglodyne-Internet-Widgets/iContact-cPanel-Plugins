@@ -4,7 +4,7 @@ Extra "Contact Manager" Providers for cPanel and WHM
 Current plugins:
 ================
 * XMPP  -- Stable XMPP provider (as I've received no external bug reports and it has worked well for me for over a month)
-* IRC   -- Still WIP, completely untested.
+* IRC   -- Still WIP, don't use this, as it is completely untested and currently no-op on send.
 * Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin.
 
 Installation and Use:
