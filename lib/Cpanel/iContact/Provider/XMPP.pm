@@ -88,6 +88,7 @@ sub _send {
         'resource'    => 'cPanel & WHM',
     );
     if( !@result || $result[0] ne "ok" ) {
+        $xmpp_conn->Disconnect();
         die("Error: XMPP authentication failed: $result[1]" );
     }
 
