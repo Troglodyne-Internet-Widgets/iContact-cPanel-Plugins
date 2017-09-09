@@ -33,10 +33,15 @@ TESTING NOTES
 -------------
 If you want to run a functional test of the XMPP iContact code in order to debug problems, set the env var `AUTHOR_TESTS`
 and write out .xmpptestrc in the toplevel directory of this git repository with content like:
+
 `XMPPUSERNAME: user@domain.tld`
+
 `XMPPPASSWORD: hunter2`
+
 `XMPPCOMPONENTNAME:`
+
 `XMPPUSETLS: 1`
+
 `XMPPVERIFYCERT: 0`
 
 You'll note these correspond to the values in the Provider's Schema module. With that set, you should spam yourself with
