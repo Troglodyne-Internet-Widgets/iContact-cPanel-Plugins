@@ -3,7 +3,7 @@ Extra "Contact Manager" Providers for cPanel and WHM
 
 Current plugins:
 ================
-* XMPP  -- Stable XMPP provider (as I've received no external bug reports and it has worked well for me for over a month)
+* XMPP  -- Stable XMPP provider (well, as stable as Net::XMPP is, anyways). See issue #2
 * IRC   -- Still WIP, don't use this, as it is completely untested and currently no-op on send.
 * Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin.
 
@@ -33,11 +33,11 @@ TESTING NOTES
 -------------
 If you want to run a functional test of the XMPP iContact code in order to debug problems, set the env var `AUTHOR_TESTS`
 and write out .xmpptestrc in the toplevel directory of this git repository with content like:
-    XMPPUSERNAME: user@domain.tld
-    XMPPPASSWORD: hunter2
-    XMPPCOMPONENTNAME:
-    XMPPUSETLS: 1
-    XMPPVERIFYCERT: 0
+`XMPPUSERNAME: user@domain.tld`
+`XMPPPASSWORD: hunter2`
+`XMPPCOMPONENTNAME:`
+`XMPPUSETLS: 1`
+`XMPPVERIFYCERT: 0`
 
 You'll note these correspond to the values in the Provider's Schema module. With that set, you should spam yourself with
 a message if the t/Cpanel-iContact-Provider-XMPP.t test passes.
