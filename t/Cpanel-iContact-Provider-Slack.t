@@ -8,14 +8,12 @@ use lib abs_path( dirname(__FILE__) . "/../lib" );
 use Test::More;
 use Test::Fatal;
 use Test::MockModule();
-use Test::NoWarnings;
 
--d "/usr/local/cpanel" ? plan tests => 4 : plan SKIP_ALL => "cPanel not installed";    # 3 + 1 for NoWarnings
+-d "/usr/local/cpanel" ? plan tests => 3 : plan skip_all => "cPanel not installed";
 
 require Cpanel::HTTP::Client;
 require Cpanel::HTTP::Client::Response;
 require Cpanel::iContact::Provider::Slack;
-
 
 # First, let's mock out the parent, and other stuff we wouldn't wanna do in a unit test
 my $provider    = Test::MockModule->new("Cpanel::iContact::Provider");

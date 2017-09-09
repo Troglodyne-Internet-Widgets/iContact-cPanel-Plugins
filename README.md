@@ -10,11 +10,6 @@ Current plugins:
 Installation and Use:
 ---------------------
 * Clone this repo with git onto a cPanel host of at least 11.64+
-* Install Net::XMPP
-
-    cpan
-    install Net:XMPP
-
 * Run the Tests
 
     make test
