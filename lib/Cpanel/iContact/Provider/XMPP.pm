@@ -47,9 +47,13 @@ sub _send {
 
     my $user_name = substr( $self->{'contact'}{'XMPPUSERNAME'}, 0, index( $self->{'contact'}{'XMPPUSERNAME'}, '@' ));
     my $srvr_name = substr( $self->{'contact'}{'XMPPUSERNAME'}, index( $self->{'contact'}{'XMPPUSERNAME'}, '@' ) + 1 );
+
     # Safest assumption unless we the user gives a component name for override is to use base server name
     # Otherwise, expect a lot of "host-unknown" errors.
     my $cmpt_name = $self->{'contact'}{'XMPPCOMPONENTNAME'} || $srvr_name;
+
+    # Set BINMODE to utf-8 on STDERR, as otherwise you'll get wide char in print warns in cPanel's Error log
+    binmode STDERR, ':utf8';
     my $xmpp_conn = Net::XMPP::Client->new(
         # Uncomment the below for debugging info
         #'debuglevel' => 2,
