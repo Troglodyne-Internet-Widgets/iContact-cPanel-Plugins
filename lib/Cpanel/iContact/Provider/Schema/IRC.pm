@@ -18,6 +18,16 @@ HALP
 If set improperly, this will cause sending notifications to fail (some IRC servers <em>require</em> SSL/TLS, some <em>don't support it</em>).
 </p>
 HALP
+    my $help4 =<<HALP;
+<p>The IRC Server Address<br />
+The domain or IP your IRC server is active on.
+</p>
+HALP
+    my $help5 =<<HALP;
+<p>The IRC Server Port<br />
+The port your IRC server is active on. Defaults to 6667.
+</p>
+HALP
     return {
         'CONTACTIRC' => {
             'shadow'   => 1,
@@ -28,7 +38,7 @@ HALP
                 @chans = grep { index( $_, '#' ) != -1 } @chans;
                 return join( ",", @chans );
             },
-            'label' => 'IRC Notification Destinations',
+            'label' => 'IRC Notification Destinations'
             'help' => $help1,
         },
         'IRCNICK' => {
@@ -42,6 +52,17 @@ HALP
             'label' => 'IRC: Use SSL/TLS?',
             'help' => $help3,
         },
+        'IRCSERVER' => {
+            'type'     => 'binary',
+            'label' => 'IRC Server Address',
+            'help' => $help3,
+        },
+       'IRCPORT' => {
+            'type'     => 'binary',
+            'label' => 'IRC Server Port',
+            'help' => $help3,
+        },
+
     };
 }
 

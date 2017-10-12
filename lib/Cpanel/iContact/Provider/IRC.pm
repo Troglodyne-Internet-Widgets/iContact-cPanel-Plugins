@@ -41,7 +41,7 @@ sub send {
 
 sub _send {
     my ( $self, %args ) = @_;
-    # TODO research what is installed on cP boxes to see what I can use here
+    require Bot::BasicBot;
 
     return;
 }

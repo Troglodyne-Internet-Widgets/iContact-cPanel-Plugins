@@ -14,27 +14,27 @@ isa_ok( my $xmpp = Cpanel::iContact::Provider::XMPP->new(), "Cpanel::iContact::P
 my $sent;
 {
     no warnings qw{redefine once};
-    local *Net::XMPP::Client::Connect     = sub { return 1; };
-    local *Net::XMPP::Client::AuthSend    = sub { return ( 'ok', "Assumed Success" ); };
-    local *Net::XMPP::Client::MessageSend = sub { return; };
-    local *Net::XMPP::Client::Disconnect  = sub { return; };
+    local *Bot::BasicBot::new     = sub { return bless {}, "Bot::BasicBot"; };
+    local *Bot::BasicBot::AuthSend    = sub { return ( 'ok', "Assumed Success" ); };
+    local *Bot::BasicBot::MessageSend = sub { return; };
+    local *Bot::BasicBot::Disconnect  = sub { return; };
     is( exception { $sent = $xmpp->send(); }, undef, 'send() did not die' );
 }
 ok( $sent, "...and the message appears to have actually sent." );
 
 SKIP: {
-    my $conf_file = abs_path( dirname(__FILE__) . "/../.xmpptestrc" );
+    my $conf_file = abs_path( dirname(__FILE__) . "/../.irctestrc" );
     skip "Skipping functional testing, needful not supplied", 1 if !$ENV{'AUTHOR_TESTS'} || !-f $conf_file;
     my $test_conf = { Config::Simple->import_from($conf_file)->vars() };
     my %args = (
         'destination' => $test_conf->{'XMPPUSERNAME'},
         'subject' => 'My Super cool test notification',
-        'content' => "This is a test of Cpanel::iContact::Provider::XMPP. Please Ignore",
+        'content' => "This is a test of Cpanel::iContact::Provider::IRC. Please Ignore",
     );
 
     {
         no warnings qw{redefine once};
-        local *Cpanel::iContact::Provider::XMPP::new = sub {
+        local *Cpanel::iContact::Provider::IRC::new = sub {
             return bless {
                 'contact' => $test_conf,
             }, $_[0];
@@ -45,4 +45,4 @@ SKIP: {
 }
 
 # TODO error paths
-#isnt( exception { $xmpp->send(); }, undef, "We blew up when we timed out on connect" );
+
