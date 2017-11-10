@@ -1,6 +1,7 @@
 package Cpanel::iContact::Provider::XMPP;
 
-use strict;
+# Not strict safe in all cases, a change in v70 to enable compiled queueprocd seems to trigger bombouts on the Net::XMPP require.
+#use strict;
 use warnings;
 
 use parent 'Cpanel::iContact::Provider';
