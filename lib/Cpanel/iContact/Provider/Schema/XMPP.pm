@@ -23,7 +23,7 @@ as this could indicate a problem with their s2s settings.
 </p>
 HALP
     my $help3 = <<HALP;
-<p>The password for the user you wish to send cPanel & WHM notifications from.<br />
+<p>The password for the XMPP user you wish to send cPanel & WHM notifications from.<br />
 Example: "openSesame1"</p>
 HALP
     my $help4 = <<HALP;
