@@ -7,6 +7,8 @@ use parent 'Cpanel::iContact::Provider';
 
 sub send {
     my ($self) = @_;
+    my @missing = grep { !defined $self->{'contact'}{$_} } qw{IRCSERVER};
+    die "Kit not complete! Missing: " . join( ", ", @missing ) if scalar( @missing );
 
     my $args_hr = $self->{'args'};
     my @errs;
@@ -42,6 +44,16 @@ sub send {
 sub _send {
     my ( $self, %args ) = @_;
     require Bot::BasicBot;
+    my $bot = Bot::BasicBot->new(
+        'server'   => $self->{'contact'}{'IRCSERVER'},
+        'port'     => $self->{'contact'}{'IRCPORT'} || 6667,
+        'channels' => $args{'destination'},
+        'nick'     => $self->{'contact'}{'IRCNICK'} || 'cPanel_&_WHM',
+        'ssl'      => $self->{'contact'}{'IRCUSESSL'},
+    );
+    $bot->say( { 'body' => $args{'subject'} } );
+    $bot->say( { 'body' => $args{'content'} } );
+    $bot->shutdown();
 
     return;
 }

@@ -7,18 +7,17 @@ use lib abs_path( dirname(__FILE__) . "/../lib" );
 
 use Test::More 'tests' => 5;
 use Test::Fatal;
-use Config::Simple ();
+use Bot::BasicBot ();
 
-is( exception { require Cpanel::iContact::Provider::XMPP; }, undef, 'Module at least compiles' );
-isa_ok( my $xmpp = Cpanel::iContact::Provider::XMPP->new(), "Cpanel::iContact::Provider::XMPP" );
+is( exception { require Cpanel::iContact::Provider::IRC; }, undef, 'Module at least compiles' );
+isa_ok( my $bot = Cpanel::iContact::Provider::IRC->new(), "Cpanel::iContact::Provider::IRC" );
 my $sent;
 {
     no warnings qw{redefine once};
-    local *Bot::BasicBot::new     = sub { return bless {}, "Bot::BasicBot"; };
-    local *Bot::BasicBot::AuthSend    = sub { return ( 'ok', "Assumed Success" ); };
-    local *Bot::BasicBot::MessageSend = sub { return; };
-    local *Bot::BasicBot::Disconnect  = sub { return; };
-    is( exception { $sent = $xmpp->send(); }, undef, 'send() did not die' );
+    local *Bot::BasicBot::new      = sub { return bless {}, "Bot::BasicBot"; };
+    local *Bot::BasicBot::say      = sub { return ( 'ok', "Assumed Success" ); };
+    local *Bot::BasicBot::shutdown = sub { return; };
+    is( exception { $sent = $bot->send(); }, undef, 'send() did not throw' );
 }
 ok( $sent, "...and the message appears to have actually sent." );
 
