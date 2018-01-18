@@ -17,8 +17,8 @@ sub send {
     my $body_copy    = ${ $args_hr->{'text_body'} };
 
     require Encode;
-    my $subject      = Encode::decode_utf8( $subject_copy, $Encode::FB_QUIET );
-    my $body         = Encode::decode_utf8( $body_copy, $Encode::FB_QUIET );
+    my $subject = Encode::decode_utf8( $subject_copy, $Encode::FB_QUIET );
+    my $body    = Encode::decode_utf8( $body_copy, $Encode::FB_QUIET );
 
     foreach my $destination ( @{ $args_hr->{'to'} } ) {
         local $@;
@@ -44,15 +44,21 @@ sub send {
 sub _send {
     my ( $self, %args ) = @_;
     require Bot::BasicBot;
+    if( $ENV{'AUTHOR_TESTS'} ) {
+        my $debugmsg = "# Attempting connection to $self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'} as $self->{'contact'}{'IRCNICK'} in channel $args{'destination'}";
+        $debugmsg   .= " using SSL" if $self->{'contact'}{'IRCUSESSL'};
+        print $debugmsg, "\n";
+    }
     my $bot = Bot::BasicBot->new(
         'server'   => $self->{'contact'}{'IRCSERVER'},
         'port'     => $self->{'contact'}{'IRCPORT'} || 6667,
-        'channels' => $args{'destination'},
+        'channels' => [ $args{'destination'} ],
         'nick'     => $self->{'contact'}{'IRCNICK'} || 'cPanel_&_WHM',
         'ssl'      => $self->{'contact'}{'IRCUSESSL'},
     );
-    $bot->say( { 'body' => $args{'subject'} } );
-    $bot->say( { 'body' => $args{'content'} } );
+    $bot->run();
+    $bot->notice( { 'channel' => $args{'destination'}, 'body' => $args{'subject'} } );
+    $bot->notice( { 'channel' => $args{'destination'}, 'body' => $args{'content'} } );
     $bot->shutdown();
 
     return;

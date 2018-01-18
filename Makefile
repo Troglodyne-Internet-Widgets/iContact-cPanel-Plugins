@@ -10,4 +10,4 @@ test:
 	[ -x /usr/local/cpanel/3rdparty/bin/prove ] || prove t/*.t
 
 depend:
-	perl -MNet::XMPP -MMozilla::CA -MTest::More -MTest::Fatal -MTest::MockModule -MConfig::Simple -MBot::BasicBot -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA Test::More Test::Fatal Test::MockModule Config::Simple Bot::BasicBot
+	perl -MNet::XMPP -MMozilla::CA -MTest::More -MTest::Fatal -MTest::MockModule -MConfig::Simple -MBot::BasicBot -MPOE::Component::SSLify -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA Test::More Test::Fatal Test::MockModule Config::Simple Bot::BasicBot POE::Component::SSLify

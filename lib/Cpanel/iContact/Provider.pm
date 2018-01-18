@@ -17,6 +17,8 @@ sub new {
             'XMPPTLSVERIFY'     => 1,
             'XMPPCOMPONENTNAME' => 'jibber.jabber.org',
             'IRCSERVER'         => 'irc.bot.test',
+            'IRCPORT'           => 666,
+            'IRCNICK'           => 'DevilBot',
         },
         'args' => {
             'subject'   => 'cPanel on Drugs',
