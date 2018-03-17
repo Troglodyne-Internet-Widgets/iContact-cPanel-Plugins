@@ -53,9 +53,10 @@ sub _send {
 
     require IO::Socket::INET;
     require IO::Socket::SSL;
+    require Time::HiRes;
 
     alarm(10);
-    $conn = IO::Socket::INET->new("$self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'}") or die $!;
+    $conn = IO::Socket::INET->new("$self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'}", ) or die $!;
     if( $self->{'contact'}{'IRCUSESSL'} ) {
         print "# Upgrading connection to use SSL...\n" if $ENV{'AUTHOR_TESTS'};
         IO::Socket::SSL->start_SSL( $conn, 'SSL_HOSTNAME' => $self->{'contact'}{'IRCSERVER'}, 'SSL_verify_mode' => 0 ) or die $IO::Socket::SSL::ERROR;
@@ -68,21 +69,20 @@ sub _send {
     my %got;
     while( $conn ) {
 
-        # Print your message
+        last if !scalar(@message_lines);
+        
+        # Print it all then leave like a bad smell
         if( $got{'366'} && $got{'332'} ) {
-            my $shake_line = shift @message_lines;
-            print "# [SENT] $shake_line" if $ENV{'AUTHOR_TESTS'};
-            print $conn $shake_line if scalar(@message_lines);
-            last if !scalar(@message_lines);
-            next;
+            foreach my $shake_line ( @message_lines ) {
+                print "# [SENT] $shake_line" if $ENV{'AUTHOR_TESTS'};
+                print $conn $shake_line;
+            }
+            last;
         }
-        my $line = readline( $conn );
-        $line =~ s/^[^[:print:]]+$//; # Collapse blank lines
-        if( !$line ) {
-            print "# [GOT][0] (Sleeping 1s...)\n" if $ENV{'AUTHOR_TESTS'};
-            sleep 1;
-            next;
-        }
+
+        my $line= readline( $conn ) || "";
+        #$line =~ s/^[^[:print:]]+$//; # Collapse blank lines
+        next if !$line;
         print "# [GOT][" . length($line) . "] $line" if $ENV{'AUTHOR_TESTS'};
         my @msgparts = split( ' ', $line );
         $msgparts[1] ||= '';
@@ -106,7 +106,12 @@ sub _send {
             next;
         }
     }
-    print $conn "QUIT : Done sending notification\r\n";
+    print "# [SENT] QUIT :Done sending notification\r\n" if $ENV{'AUTHOR_TESTS'};
+    print $conn "QUIT :Done sending notification\r\n";
+    # The connection won't properly un-block until you read the response from QUIT.
+    # Unfortunately, just setting it to non-block leads to your messages not being processed.
+    # As such, just read here and let it do it's thing even though you don't actually need the data.
+    readline( $conn );
     $conn->shutdown(2);
 
     return;
