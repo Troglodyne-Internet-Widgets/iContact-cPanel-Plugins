@@ -20,18 +20,16 @@ sub send {
     my $subject = Encode::decode_utf8( $subject_copy, $Encode::FB_QUIET );
     my $body    = Encode::decode_utf8( $body_copy, $Encode::FB_QUIET );
 
-    foreach my $destination ( @{ $args_hr->{'to'} } ) {
-        local $@;
-        eval {
-            my $response;
-            $self->_send(
-                'destination' => $destination,
-                'subject' => $subject,
-                'content' => $body
-            );
-        };
-        push( @errs, $@ ) if $@;
-    }
+	local $@;
+	eval {
+		my $response;
+		$self->_send(
+			'channels' => @{ $args_hr->{'to'} },
+			'subject' => $subject,
+			'content' => $body
+		);
+	};
+	push( @errs, $@ ) if $@;
 
     if (@errs) {
         die "One or more notification attempts failed. Details below:\n"
@@ -41,27 +39,116 @@ sub send {
     return 1;
 }
 
+my $conf;
+my $conn;
 sub _send {
     my ( $self, %args ) = @_;
-    require Bot::BasicBot;
+
     if( $ENV{'AUTHOR_TESTS'} ) {
         my $debugmsg = "# Attempting connection to $self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'} as $self->{'contact'}{'IRCNICK'} in channel $args{'destination'}";
         $debugmsg   .= " using SSL" if $self->{'contact'}{'IRCUSESSL'};
         print $debugmsg, "\n";
     }
-    my $bot = Bot::BasicBot->new(
-        'server'   => $self->{'contact'}{'IRCSERVER'},
-        'port'     => $self->{'contact'}{'IRCPORT'} || 6667,
-        'channels' => [ $args{'destination'} ],
-        'nick'     => $self->{'contact'}{'IRCNICK'} || 'cPanel_&_WHM',
-        'ssl'      => $self->{'contact'}{'IRCUSESSL'},
-    );
-    $bot->run();
-    $bot->notice( { 'channel' => $args{'destination'}, 'body' => $args{'subject'} } );
-    $bot->notice( { 'channel' => $args{'destination'}, 'body' => $args{'content'} } );
-    $bot->shutdown();
+    my @message_lines = _format_message_for_irc( $args{'subject'}, $args{'content'}, $args{'destination'} );
+
+    require IO::Socket::INET;
+    require IO::Socket::SSL;
+
+    alarm(10);
+    $conn = IO::Socket::INET->new("$self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'}") or die $!;
+    if( $self->{'contact'}{'IRCUSESSL'} ) {
+        print "# Upgrading connection to use SSL...\n" if $ENV{'AUTHOR_TESTS'};
+        IO::Socket::SSL->start_SSL( $conn, 'SSL_HOSTNAME' => $self->{'contact'}{'IRCSERVER'}, 'SSL_verify_mode' => 0 ) or die $IO::Socket::SSL::ERROR;
+    }
+    print "# [SENT] NICK $self->{'contact'}{'IRCNICK'}\r\n" if $ENV{'AUTHOR_TESTS'};
+    print $conn "NICK $self->{'contact'}{'IRCNICK'}\r\n";
+    print "# [SENT] USER cpsaurus * 8 :cPanel & WHM Notification Bot v0.1 (github.com/troglodyne/iContact-cPanel-Plugins)\r\n" if $ENV{'AUTHOR_TESTS'};
+    print $conn "USER cpsaurus * 8 :cPanel & WHM Notification Bot v0.1 (github.com/troglodyne/iContact-cPanel-Plugins)\r\n";
+  
+    my %got;
+    while( $conn ) {
+
+        # Print your message
+        if( $got{'366'} && $got{'332'} ) {
+            my $shake_line = shift @message_lines;
+            print "# [SENT] $shake_line" if $ENV{'AUTHOR_TESTS'};
+            print $conn $shake_line if scalar(@message_lines);
+            last if !scalar(@message_lines);
+            next;
+        }
+        my $line = readline( $conn );
+        $line =~ s/^[^[:print:]]+$//; # Collapse blank lines
+        if( !$line ) {
+            print "# [GOT][0] (Sleeping 1s...)\n" if $ENV{'AUTHOR_TESTS'};
+            sleep 1;
+            next;
+        }
+        print "# [GOT][" . length($line) . "] $line" if $ENV{'AUTHOR_TESTS'};
+        my @msgparts = split( ' ', $line );
+        $msgparts[1] ||= '';
+        # PING handler
+        if( $msgparts[0] eq 'PING' ) {
+            print "# [SENT] PONG $msgparts[1]\r\n" if $ENV{'AUTHOR_TESTS'};
+            print $conn "PONG $msgparts[1]\r\n";
+            next;
+        }
+        # MOTD/JOIN handler
+        if( grep { $_ eq $msgparts[1] } qw{376 422} ) {
+            print "# [SENT] JOIN $args{'destination'}\r\n" if $ENV{'AUTHOR_TESTS'};
+            print $conn "JOIN $args{'destination'}\r\n";
+            next;
+        }
+        # Channel join handler, gotta wait for NAMES and TOPIC
+        if( grep { $_ eq $msgparts[1] } qw{366 332} ) {
+            print "# [INFO] Noticed we got $msgparts[1] above. Noting that so we can know when to start spamming messages.\n" if $ENV{'AUTHOR_TESTS'};
+
+            $got{"$msgparts[1]"} = 1 ;
+            next;
+        }
+    }
+    print $conn "QUIT : Done sending notification\r\n";
+    $conn->shutdown(2);
 
     return;
+}
+
+# https://tools.ietf.org/html/rfc2812#section-2.3
+sub _format_message_for_irc {
+    my ( $subj, $body, $chan ) = @_;
+    my @msg_lines;
+
+    my $prefix = "NOTICE $chan :";
+    my $suffix = "\r\n"; # 2 chars
+    my $msglen = 510 - length $prefix; # 512 chars total
+
+    # Subject is one line
+    while( $subj ) {
+        if( length $subj <= 510 ) {
+            push( @msg_lines, $prefix . $subj . $suffix );
+            undef $subj;
+        } else {
+            push( @msg_lines, $prefix . substr( $subj, 0, 510, "" ) . $suffix );
+        }
+    }
+
+    # Body is multiline
+    my @body_lines = split( "\n", $body );
+    foreach my $line (@body_lines) {
+        while( $line ) {
+            if( length $line <= 510 ) {
+                push( @msg_lines, $prefix . $line . $suffix );
+                undef $line;
+            } else {
+                push( @msg_lines, $prefix . substr( $line, 0, 510, "" ) . $suffix );
+            }
+        }
+    }
+
+    return @msg_lines;
+}
+
+sub DESTROY {
+    $conn->shutdown(2) if $conn;
 }
 
 1;
