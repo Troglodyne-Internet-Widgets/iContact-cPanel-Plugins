@@ -56,7 +56,7 @@ sub _send {
     alarm(10);
 
     $conn = IO::Socket::INET->new("$self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'}", ) or die $!;
-    binmode( $conn, ":utf-8" );
+    binmode( $conn, ":utf8" );
     if( $self->{'contact'}{'IRCUSESSL'} ) {
         print "# Upgrading connection to use SSL...\n" if $ENV{'AUTHOR_TESTS'};
         IO::Socket::SSL->start_SSL( $conn, 'SSL_HOSTNAME' => $self->{'contact'}{'IRCSERVER'}, 'SSL_verify_mode' => 0 ) or die $IO::Socket::SSL::ERROR;
