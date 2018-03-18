@@ -38,7 +38,7 @@ HALP
                 @chans = grep { index( $_, '#' ) != -1 } @chans;
                 return join( ",", @chans );
             },
-            'label' => 'IRC Notification Destinations'
+            'label' => 'IRC Notification Destinations',
             'help' => $help1,
         },
         'IRCNICK' => {
