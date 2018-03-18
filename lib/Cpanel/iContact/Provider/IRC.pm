@@ -53,7 +53,7 @@ sub _send {
     # Don't laugh, some of these notices are so long (and the server so laggy at printing) that this actually is reasonable.
     # Usually messages are delayed as a flood limiting action.
     local $SIG{'ALRM'} = sub { die "Timed out waiting for notification to post to IRC channel!" };
-    alarm(10);
+    alarm(60);
 
     $conn = IO::Socket::INET->new("$self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'}", ) or die $!;
     binmode( $conn, ":utf8" );
