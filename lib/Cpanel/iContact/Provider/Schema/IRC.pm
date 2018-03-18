@@ -62,12 +62,12 @@ HALP
             'help' => $help3,
         },
         'IRCSERVER' => {
-            'type'     => 'binary',
+            'type'     => 'text',
             'label' => 'IRC Server Address',
             'help' => $help4,
         },
        'IRCPORT' => {
-            'type'     => 'binary',
+            'type'     => 'text',
             'label' => 'IRC Server Port',
             'help' => $help5,
         },
