@@ -24,9 +24,9 @@ sub send {
 	eval {
 		my $response;
 		$self->_send(
-			'channels' => @{ $args_hr->{'to'} },
-			'subject' => $subject,
-			'content' => $body
+			'destination' => $args_hr->{'to'},
+			'subject'     => $subject,
+			'content'     => $body
 		);
 	};
 	push( @errs, $@ ) if $@;
@@ -39,7 +39,6 @@ sub send {
     return 1;
 }
 
-my $conf;
 my $conn;
 sub _send {
     my ( $self, %args ) = @_;

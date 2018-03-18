@@ -5,9 +5,9 @@ use warnings;
 
 sub get_settings {
     my $help1 = <<HALP;
-<p>The IRC <em>channels</em> you wish to send cPanel & WHM notifications <em>to</em>.<br />
-For multiple channels, delimit them with commas.<br />
-Example: "#YOLO,#swag"</p>
+<p>The IRC <em>channel</em> you wish to send cPanel & WHM notifications <em>to</em>.<br />
+Multiple channels currently are not supported.<br />
+Example: "#YOLO"</p>
 HALP
     my $help2 = <<HALP;
 <p>The IRC <em>nickname</em> you wish for cPanel & WHM notifications to use.<br />
@@ -44,6 +44,15 @@ HALP
         'IRCNICK' => {
             'shadow'   => 1,
             'type'     => 'text',
+            'checkval' => sub {
+                my $value = shift();
+                $value =~ s/^\s+|\s+$//g; # Trim
+
+                # TODO get full list of "invalid characters". RFC doesn't specify.
+                die "IRC nicknames can't contain spaces!" if index( $value, " ") != -1;
+
+                return $value;
+            },
             'label' => 'IRC Notification Bot Nickname',
             'help' => $help2,
         },
