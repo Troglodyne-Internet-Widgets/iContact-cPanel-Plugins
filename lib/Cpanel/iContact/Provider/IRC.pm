@@ -13,18 +13,14 @@ sub send {
     my $args_hr = $self->{'args'};
     my @errs;
 
-    my $subject_copy = $args_hr->{'subject'};
-    my $body_copy    = ${ $args_hr->{'text_body'} };
-
-    require Encode;
-    my $subject = Encode::decode_utf8( $subject_copy, $Encode::FB_QUIET );
-    my $body    = Encode::decode_utf8( $body_copy, $Encode::FB_QUIET );
+    my $subject = $args_hr->{'subject'};
+    my $body    = ${ $args_hr->{'text_body'} };
 
 	local $@;
 	eval {
 		my $response;
 		$self->_send(
-			'destination' => $args_hr->{'to'},
+			'destination' => $args_hr->{'to'}[0],
 			'subject'     => $subject,
 			'content'     => $body
 		);
@@ -54,8 +50,13 @@ sub _send {
     require IO::Socket::SSL;
     require Time::HiRes;
 
+    # Don't laugh, some of these notices are so long (and the server so laggy at printing) that this actually is reasonable.
+    # Usually messages are delayed as a flood limiting action.
+    local $SIG{'ALRM'} = sub { die "Timed out waiting for notification to post to IRC channel!" };
     alarm(10);
+
     $conn = IO::Socket::INET->new("$self->{'contact'}{'IRCSERVER'}:$self->{'contact'}{'IRCPORT'}", ) or die $!;
+    binmode( $conn, ":utf-8" );
     if( $self->{'contact'}{'IRCUSESSL'} ) {
         print "# Upgrading connection to use SSL...\n" if $ENV{'AUTHOR_TESTS'};
         IO::Socket::SSL->start_SSL( $conn, 'SSL_HOSTNAME' => $self->{'contact'}{'IRCSERVER'}, 'SSL_verify_mode' => 0 ) or die $IO::Socket::SSL::ERROR;
