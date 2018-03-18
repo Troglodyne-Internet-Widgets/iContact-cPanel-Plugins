@@ -1,4 +1,4 @@
 *.bak
 *.swp
 cover_db
-.xmpptestrc
+.*testrc

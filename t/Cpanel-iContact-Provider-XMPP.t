@@ -24,7 +24,6 @@ ok( $sent, "...and the message appears to have actually sent." );
 
 SKIP: {
     my $conf_file = abs_path( dirname(__FILE__) . "/../.xmpptestrc" );
-    diag("Conf file '$conf_file' doesn't exist") if !-f $conf_file;
     skip "Skipping functional testing, needful not supplied", 1 if !$ENV{'AUTHOR_TESTS'} || !-f $conf_file;
     my $test_conf = { Config::Simple->import_from($conf_file)->vars() };
     my %args = (

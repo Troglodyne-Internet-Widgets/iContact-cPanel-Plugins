@@ -11,11 +11,14 @@ sub new {
     my $text_body = 'HOLY CRAP THE AUTO-LAYOFF THING TRIGGERED';
     my $self = {
         'contact' => {
-            'XMPPUSERNAME'  => 'mr_t@a-team.gov',
-            'XMPPPASSWORD'  => 'bjBarracus#1',
-            'XMPPUSETLS'    => 1,
-            'XMPPTLSVERIFY' => 1,
-            'XMPPCOMPONENTNAME' => 'jibber.jabber.org'
+            'XMPPUSERNAME'      => 'mr_t@a-team.gov',
+            'XMPPPASSWORD'      => 'bjBarracus#1',
+            'XMPPUSETLS'        => 1,
+            'XMPPTLSVERIFY'     => 1,
+            'XMPPCOMPONENTNAME' => 'jibber.jabber.org',
+            'IRCSERVER'         => 'irc.bot.test',
+            'IRCPORT'           => 666,
+            'IRCNICK'           => 'DevilBot',
         },
         'args' => {
             'subject'   => 'cPanel on Drugs',

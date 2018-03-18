@@ -5,9 +5,9 @@ use warnings;
 
 sub get_settings {
     my $help1 = <<HALP;
-<p>The IRC <em>channels</em> you wish to send cPanel & WHM notifications <em>to</em>.<br />
-For multiple channels, delimit them with commas.<br />
-Example: "#YOLO,#swag"</p>
+<p>The IRC <em>channel</em> you wish to send cPanel & WHM notifications <em>to</em>.<br />
+Multiple channels currently are not supported.<br />
+Example: "#YOLO"</p>
 HALP
     my $help2 = <<HALP;
 <p>The IRC <em>nickname</em> you wish for cPanel & WHM notifications to use.<br />
@@ -16,6 +16,16 @@ HALP
     my $help3 =<<HALP;
 <p>Whether or not the IRC server your Notification User is registered at supports SSL/TLS.<br />
 If set improperly, this will cause sending notifications to fail (some IRC servers <em>require</em> SSL/TLS, some <em>don't support it</em>).
+</p>
+HALP
+    my $help4 =<<HALP;
+<p>The IRC Server Address<br />
+The domain or IP your IRC server is active on.
+</p>
+HALP
+    my $help5 =<<HALP;
+<p>The IRC Server Port<br />
+The port your IRC server is active on. Defaults to 6667.
 </p>
 HALP
     return {
@@ -34,6 +44,15 @@ HALP
         'IRCNICK' => {
             'shadow'   => 1,
             'type'     => 'text',
+            'checkval' => sub {
+                my $value = shift();
+                $value =~ s/^\s+|\s+$//g; # Trim
+
+                # TODO get full list of "invalid characters". RFC doesn't specify.
+                die "IRC nicknames can't contain spaces!" if index( $value, " ") != -1;
+
+                return $value;
+            },
             'label' => 'IRC Notification Bot Nickname',
             'help' => $help2,
         },
@@ -42,6 +61,17 @@ HALP
             'label' => 'IRC: Use SSL/TLS?',
             'help' => $help3,
         },
+        'IRCSERVER' => {
+            'type'     => 'text',
+            'label' => 'IRC Server Address',
+            'help' => $help4,
+        },
+       'IRCPORT' => {
+            'type'     => 'text',
+            'label' => 'IRC Server Port',
+            'help' => $help5,
+        },
+
     };
 }
 
