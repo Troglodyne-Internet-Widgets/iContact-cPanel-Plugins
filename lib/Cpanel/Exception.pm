@@ -1,7 +1,5 @@
 package Cpanel::Exception;
 
-use Test::More ();
-
-*create = &Test::More::explain;
+sub create { return [ @_ ] };
 
 1;

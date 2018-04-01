@@ -29,29 +29,32 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
     isa_ok( my $spammer = Cpanel::iContact::Provider::Slack->new(), "Cpanel::iContact::Provider::Slack" );
     is( exception { $spammer->send() }, undef, "send doesn't throw on GreatSuccess" );
     $resp_mocker->mock( 'success' => sub { return 0; }, 'status' => sub { return 500; }, 'reason' => sub { return 'ENOHUGS'; } );
-    isnt( exception { $spammer->send() }, undef, "send throws whenever anything goes wrong" );
+    my $ex;
+    is( $ex = exception { $spammer->send() }, undef, "send throws whenever anything goes wrong" ) || diag explain $ex;
 };
 
 subtest "Can send a message to somewhere (systems level/integration test)" => sub {
-    my $conf_file = abs_path( dirname(__FILE__) . "/../.slacktestrc" );
-    skip "Skipping functional testing, needful not supplied", 1 if !$ENV{'AUTHOR_TESTS'} || !-f $conf_file;
-    my $test_conf = { Config::Simple->import_from($conf_file)->vars() };
-    my $text_body = "This is a test of Cpanel::iContact::Provider::Slack. Please Ignore";
-    my %args = (
-        'to'        => [ $test_conf->{'CONTACTSLACK'} ],
-        'subject'   => 'My Super cool test notification',
-        'text_body' => \$text_body,
-    );
+    SKIP: {
+        my $conf_file = abs_path( dirname(__FILE__) . "/../.slacktestrc" );
+        skip "Skipping functional testing, needful not supplied", 1 if !$ENV{'AUTHOR_TESTS'} || !-f $conf_file;
+        my $test_conf = { Config::Simple->import_from($conf_file)->vars() };
+        my $text_body = "This is a test of Cpanel::iContact::Provider::Slack. Please Ignore";
+        my %args = (
+            'to'        => [ $test_conf->{'CONTACTSLACK'} ],
+            'subject'   => 'My Super cool test notification',
+            'text_body' => \$text_body,
+        );
 
-    {
-        no warnings qw{redefine once};
-        local *Cpanel::iContact::Provider::Slack::new = sub {
-            return bless {
-                'contact' => $test_conf,
-                'args'    => \%args,
-            }, $_[0];
-        };
-        my $spammer = Cpanel::iContact::Provider::Slack->new();
-        is( exception { $spammer->send() }, undef, "Didn't fail to send notification using full functional test" );
+        {
+            no warnings qw{redefine once};
+            local *Cpanel::iContact::Provider::Slack::new = sub {
+                return bless {
+                    'contact' => $test_conf,
+                    'args'    => \%args,
+                }, $_[0];
+            };
+            my $spammer = Cpanel::iContact::Provider::Slack->new();
+            is( exception { $spammer->send() }, undef, "Didn't fail to send notification using full functional test" );
+        }
     }
 };
