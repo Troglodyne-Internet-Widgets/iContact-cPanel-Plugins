@@ -6,7 +6,6 @@ use warnings;
 use parent 'Cpanel::iContact::Provider';
 
 use Try::Tiny;
-use Cpanel::LoadModule ();
 
 =encoding utf-8
 
@@ -62,13 +61,13 @@ sub send {
 
     my @errs;
 
-    Cpanel::LoadModule::load_perl_module("Cpanel::HTTP::Client");
+    require Cpanel::HTTP::Client;
     my $ua = Cpanel::HTTP::Client->new( 'default_headers' => { 'content-type' => 'application/json' } )->die_on_http_error();
 
     my $subject = $args_hr->{'subject'};
     my $message = ${ $args_hr->{'text_body'} };
 
-    Cpanel::LoadModule::load_perl_module("Cpanel::AdminBin::Serializer");
+    require Cpanel::AdminBin::Serializer;
     my $message_json = Cpanel::AdminBin::Serializer::Dump(
         {
             'text'        => $subject,
@@ -83,7 +82,7 @@ sub send {
             die( sprintf "Error %d: %s", $res->status(), $res->reason() ) if !$res->success();
         }
         catch {
-            Cpanel::LoadModule::load_perl_module("Cpanel::Exception");
+            require Cpanel::Exception;
             push(
                 @errs,
                 Cpanel::Exception::create(

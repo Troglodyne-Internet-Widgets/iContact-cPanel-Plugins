@@ -1,13 +1,13 @@
-install:
-	make depend
+all: install
+
+install: depend
 	[ -d /var/cpanel/perl/Cpanel/iContact/Provider/Schema ] || mkdir -p /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
 	cp -f lib/Cpanel/iContact/Provider/Schema/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
 	cp -f lib/Cpanel/iContact/Provider/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/
 
-test:
-	make depend
+test: depend
 	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] || /usr/local/cpanel/3rdparty/bin/prove t/*.t
 	[ -x /usr/local/cpanel/3rdparty/bin/prove ] || prove t/*.t
 
 depend:
-	perl -MNet::XMPP -MMozilla::CA -MTest::More -MTest::Fatal -MTest::MockModule -MConfig::Simple -MIO::Socket::INET -MIO::Socket::SSL -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA Test::More Test::Fatal Test::MockModule Config::Simple IO::Socket::INET IO::Socket::SSL
+	perl -MNet::XMPP -MMozilla::CA -MTest::More -MTest::Fatal -MTest::MockModule -MConfig::Simple -MIO::Socket::INET -MIO::Socket::SSL -MHTTP::Tiny::UA -MHTTP::Tiny::UA::Response -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA Test::More Test::Fatal Test::MockModule Config::Simple IO::Socket::INET IO::Socket::SSL HTTP::Tiny::UA HTTP::Tiny::UA::Response
