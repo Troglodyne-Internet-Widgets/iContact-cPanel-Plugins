@@ -29,8 +29,7 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
     isa_ok( my $spammer = Cpanel::iContact::Provider::Slack->new(), "Cpanel::iContact::Provider::Slack" );
     is( exception { $spammer->send() }, undef, "send doesn't throw on GreatSuccess" );
     $resp_mocker->mock( 'success' => sub { return 0; }, 'status' => sub { return 500; }, 'reason' => sub { return 'ENOHUGS'; } );
-    my $ex;
-    is( $ex = exception { $spammer->send() }, undef, "send throws whenever anything goes wrong" ) || diag explain $ex;
+    isnt( exception { $spammer->send() }, undef, "send throws whenever anything goes wrong" );
 };
 
 subtest "Can send a message to somewhere (systems level/integration test)" => sub {
@@ -54,7 +53,8 @@ subtest "Can send a message to somewhere (systems level/integration test)" => su
                 }, $_[0];
             };
             my $spammer = Cpanel::iContact::Provider::Slack->new();
-            is( exception { $spammer->send() }, undef, "Didn't fail to send notification using full functional test" );
+            my $ex;
+            is( $ex = exception { $spammer->send() }, undef, "Didn't fail to send notification using full functional test" ) || diag explain $ex;
         }
     }
 };
