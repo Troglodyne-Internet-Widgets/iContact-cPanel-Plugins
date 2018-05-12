@@ -6,6 +6,7 @@ Current plugins:
 * XMPP  -- Stable XMPP provider (well, as stable as Net::XMPP is, anyways). See issue #2
 * IRC   -- New provider, needs more testing by users out in the wild. "Works for Me"
 * Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin.
+* Discord -- Similar to Slack, use an incoming WebHook URL.
 
 Installation and Use:
 ---------------------
