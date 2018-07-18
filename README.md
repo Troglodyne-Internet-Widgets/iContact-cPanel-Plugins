@@ -12,7 +12,9 @@ Installation and Use:
 ---------------------
 * Clone this repo with git onto a cPanel host of at least 11.64+.
 * After changing the current working directory of your terminal session into the repo's directory, run `make` if you want to install all the providers.
+
 OR
+
 * If you want to only install one specific provider, run 'make install-$provider' -- example: `make install-slack` would install Slack's provider.
 * (Optionally) Run the Tests with `make test`
 * Go to WHM >> Basic Setup and configure the provider options
@@ -22,11 +24,13 @@ OR
 
 KNOWN BUGS
 ----------
-* ejabberd:
+*ejabberd:*
+
 Currently, the DIGEST-MD5 method (used by default in Net::XMPP when authenticating against the latest ejabberd versions)
 causes failures to send notifications. Add `disable_sasl_mechanisms: "DIGEST-MD5"` to your `ejabberd.yml` config file
 to avoid this problem. See issue #2 on the tracker.
 
+*XMPP Driver (generally):*
 Also, I've seen a report about gtalk.t failing on install for certain users when attempting to install Net::XMPP as a dependency.
 If this occurs, you'll likely have to manually run CPAN and tell it to ignore the failing tests:
 `cpan -i -f Net::XMPP`. After it installs you can then rerun make install and it should be OK. (the '-f' flag stands for 'force')
