@@ -59,3 +59,8 @@ You'll note these correspond to the values in the Provider's Schema module. With
 a message if the t/Cpanel-iContact-Provider-XMPP.t test passes.
 
 Same goes for the IRC or Slack provider... use the same keys as in the schema module for dopeouts in its' test.
+
+CONTACT
+-------
+As always, if you feel there's a bug, please file an issue on the tracker.
+If you want to chat, I lurk on the [cPanel Discord server](https://go.cpanel.net/discord), so if I'm not busy I'll probably reply if you PM me.
