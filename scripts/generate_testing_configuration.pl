@@ -28,6 +28,16 @@ foreach my $key ( keys( %$settings_hr ) ) {
     print $fh "$key: " . <STDIN>;
 }
 close( $fh );
+
+my $provepath = 'prove';
+# Figure out if cPanel perl & prove exist. If so, use it, as it'll have a better chance of working.
+if( -f '/usr/local/cpanel/3rdparty/bin/perl' ) {
+    print "Checking cPanel Perl version...\n";
+    my $cpperl_ver = `perl -e 'print substr( $], 0, 1 ) . substr( $], 3, 2 );'`;
+    print "Looks like perl $cpperl_ver.\n";
+    $provepath = "/usr/local/cpanel/3rdparty/perl/$cpperl_ver/bin/prove";
+}
+
 print STDOUT (
     "Done writing to $gitdir/.${file_name_prefix}testrc.\n",
     "The functional test in t/ should now work when ran like so:\n",
