@@ -41,7 +41,7 @@ if( -f '/usr/local/cpanel/3rdparty/bin/perl' ) {
 print STDOUT (
     "Done writing to $gitdir/.${file_name_prefix}testrc.\n",
     "The functional test in t/ should now work when ran like so:\n",
-    "AUTHOR_TESTS=1 prove $gitdir/t/Cpanel-iContact-Provider-$module_name.t\n"
+    "AUTHOR_TESTS=1 $provepath $gitdir/t/Cpanel-iContact-Provider-$module_name.t\n"
 );
 
 0;
