@@ -33,7 +33,7 @@ my $provepath = 'prove';
 # Figure out if cPanel perl & prove exist. If so, use it, as it'll have a better chance of working.
 if( -f '/usr/local/cpanel/3rdparty/bin/perl' ) {
     print "Checking cPanel Perl version...\n";
-    my $cpperl_ver = `perl -e 'print substr( $], 0, 1 ) . substr( $], 3, 2 );'`;
+    my $cpperl_ver = `/usr/local/cpanel/3rdparty/bin/perl -e 'print substr( $], 0, 1 ) . substr( $], 3, 2 );'`;
     print "Looks like perl $cpperl_ver.\n";
     $provepath = "/usr/local/cpanel/3rdparty/perl/$cpperl_ver/bin/prove";
 }
