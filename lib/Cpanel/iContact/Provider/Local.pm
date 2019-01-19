@@ -106,4 +106,23 @@ sub send {
     return 1;
 }
 
+sub reap_older_than {
+    my ($timestamp) = @_;
+
+    return () unless -d $DIR;
+
+    opendir(my $dh, $DIR) || die "Can't opendir $DIR: $!";
+    my @actual_files = grep { !/^\./ && -f "$DIR/$_" } readdir($dh);
+    closedir $dh;
+
+    my %files_by_age = ();
+    @files_by_age{@actual_files} = map { (stat "$DIR/$_")[9] } @actual_files;
+
+    my @files_to_kill = grep { $files_by_age{$_} < $timestamp } @actual_files;
+
+    foreach my $goner (@files_to_kill) { unlink "$DIR/$goner" or warn "Could not delete $DIR/$goner!"; }
+
+    return @files_to_kill;
+}
+
 1;

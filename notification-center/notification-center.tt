@@ -23,17 +23,43 @@
         <tr>
             <td>[% locale.maketext('Notification') %]</td>
             <td>[% locale.maketext('Time Occurred') %]</td>
+            <td>[% locale.maketext('Show/Hide') %]</td>
         </tr>
     </thead>
     <tbody>
         [% FOREACH notification IN data.notifications.keys.sort %]
         <tr>
             <td>[% data.notifications.$notification.subject %]</td>
-            <td>[% notification %]</td>
+            <td class="timestamp">[% notification %]</td>
+            <td><a class="button" href="javascript:toggleContentDisplay('[% notification %]')">Show/Hide</a></td>
+        </tr>
+        <tr style="display:none" colspan=3 id="[% notification %]">
+            <td>
+                [% data.notifications.$notification.html %]
+            </td>
         </tr>
         [% END %]
     </tbody>
 </table>
+
+<script type="text/javascript">
+    //Localize all the timestamps on the page
+    window.onload = function () {
+        var timestamps = document.querySelectorAll('.timestamp');
+        for (var i=0; i < timestamps.length; i++) {
+            var timestamp = timestamps[i].innerText.replace('/','');
+            var t = new Date(0)
+            t.setUTCSeconds(timestamp);
+            timestamps[i].innerText = t.toLocaleDateString() + " " + t.toLocaleTimeString();
+        }
+    };
+
+    function toggleContentDisplay(id) {
+        var dstatus   = document.getElementById(id).style.display;
+        var newstatus = dstatus === 'block' ? 'none' : 'block' 
+        document.getElementById(id).style.display = newstatus;
+    }
+</script>
 
 [% PROCESS '_ajaxapp_footer.tmpl' -%]
 [% END #wrapper -%]
