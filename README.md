@@ -1,12 +1,18 @@
 # iContact-cPanel-Plugins
 Extra "Contact Manager" Providers for cPanel and WHM
 
-Current plugins:
-================
+Current iContact plugins:
+=========================
 * XMPP  -- Stable XMPP provider (well, as stable as Net::XMPP is, anyways). See issue #2
 * IRC   -- New provider, needs more testing by users out in the wild. "Works for Me"
 * Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin.
 * Discord -- Similar to Slack, use an incoming WebHook URL.
+* Local -- Writes the notifications to `/var/cpanel/iContact_notices/$USER` instead of sending them anywhere.
+
+Current WHM & cPanel Plugins:
+=============================
+* WHM >> Plugins >> Notification Center - Shows notifications the administrator or reseller has not reviewed yet, with options to silence these in the future.
+* cPanel >> Plugins >> Notification Center - Same thing, just for the cPanel user.
 
 Installation and Use:
 ---------------------
@@ -20,7 +26,7 @@ OR
 * Go to WHM >> Basic Setup and configure the provider options
 * Go to WHM >> Contact Manager and make sure it is set up to spam you mercilessly (and for the notifications you care about!).
 * Do something to trigger a notification that should fire notifications from cPanel & WHM per your preference in /etc/clevels.conf
-* If you tire of the modules and want to get rid of them, run `make uninstall`.
+* If you tire of this and want to get rid of them all, run `make uninstall`.
 
 KNOWN BUGS
 ----------

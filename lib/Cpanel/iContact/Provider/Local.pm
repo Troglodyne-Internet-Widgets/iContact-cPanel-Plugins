@@ -70,12 +70,13 @@ sub send {
     # Send it
     my $time = localtime;
     $time =~ tr/ /-/;
-    my $file = "$DIR/$time.txt";
+    my $user = getpwuid($<);
+    my $file = "$DIR/$user/$time.txt";
     try {
         # Make the dir if it doesn't exist
-        if( !-d $DIR ) {
+        if( !-d "$DIR/$user" ) {
             my $path = '/';
-            foreach my $component ( split( /\//, $DIR ) ) {
+            foreach my $component ( split( /\//, "$DIR/$user" ) ) {
                 local $!;
                 $path .= "$component/";
                 mkdir( $path ) || do {

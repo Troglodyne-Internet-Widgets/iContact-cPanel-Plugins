@@ -25,8 +25,9 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
     isa_ok( my $spammer = Cpanel::iContact::Provider::Local->new(), "Cpanel::iContact::Provider::Local" );
     my $ex = exception { $spammer->send() };
     is( $ex, undef, "send doesn't throw on GreatSuccess" ) || diag explain $ex;
-    my @files = glob( "$tmp_dir/iContact_notices/*.txt" );
-    ok( scalar(@files), "Looks like a file was written..." );
+    my $user = getpwuid($<);
+    my @files = glob( "$tmp_dir/iContact_notices/$user/*.txt" );
+    ok( scalar(@files), "Looks like a file was written..." ) || diag explain \@files;
 
     # Thu-Dec-20-13:46:46-2018 
     like( $files[0], qr/[A-Z][a-z]{2}-[A-Z][a-z]{2}-\d{2}-\d{2}:\d{2}:\d{2}-\d{4}\.txt/, "..and it looks like we'd expect it to" ) || diag explain \@files;
