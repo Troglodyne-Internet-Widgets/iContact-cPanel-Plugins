@@ -1,35 +1,43 @@
 all: install
 
-install: depend-all
+mkdir:
 	[ -d /var/cpanel/perl/Cpanel/iContact/Provider/Schema ] || mkdir -p /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
+
+install: mkdir depend-all
 	cp -f lib/Cpanel/iContact/Provider/Schema/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
 	cp -f lib/Cpanel/iContact/Provider/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/
 
-install-slack:
+install-slack: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Slack.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
 	cp -f lib/Cpanel/iContact/Provider/Slack.pm /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm
 
-install-xmpp: depend-xmpp
+install-xmpp: mkdir depend-xmpp
 	cp -f lib/Cpanel/iContact/Provider/Schema/XMPP.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm
 	cp -f lib/Cpanel/iContact/Provider/XMPP.pm /var/cpanel/perl/Cpanel/iContact/Provider/XMPP.pm
 
-install-irc: depend-irc
+install-irc: mkdir depend-irc
 	cp -f lib/Cpanel/iContact/Provider/Schema/IRC.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/IRC.pm
 	cp -f lib/Cpanel/iContact/Provider/IRC.pm /var/cpanel/perl/Cpanel/iContact/Provider/IRC.pm
 
-install-discord:
+install-discord: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
 	cp -f lib/Cpanel/iContact/Provider/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
 
+install-notification-center: mkdir
+	cp -f lib/Cpanel/iContact/Provider/Schema/Local.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
+	cp -f lib/Cpanel/iContact/Provider/Local.pm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
+
 uninstall:
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/IRC.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/IRC.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/XMPP.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
-	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/IRC.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/IRC.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/IRC.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/IRC.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/XMPP.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/XMPP.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
 
 test: depend-all depend-test
 	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] || /usr/local/cpanel/3rdparty/bin/prove t/*.t
