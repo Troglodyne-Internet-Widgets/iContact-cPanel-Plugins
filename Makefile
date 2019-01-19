@@ -1,13 +1,12 @@
-all: install
+all: install install-slack install-xmpp install-discord install-notification-center
 
 mkdir:
 	[ -d /var/cpanel/perl/Cpanel/iContact/Provider/Schema ] || mkdir -p /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
+	[ -d /var/cpanel/perl/Cpanel/iContact/Provider/Local ] || mkdir -p /var/cpanel/perl/Cpanel/iContact/Provider/Local/
 
 install: mkdir depend-all
 	cp -f lib/Cpanel/iContact/Provider/Schema/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
 	cp -f lib/Cpanel/iContact/Provider/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/
-	cd notification-center
-	make install
 
 install-slack: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Slack.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
@@ -28,6 +27,8 @@ install-discord: mkdir
 install-notification-center: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Local.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
 	cp -f lib/Cpanel/iContact/Provider/Local.pm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
+	cp -f lib/Cpanel/iContact/Provider/Local/Getter.pm /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm
+	cd notification-center && make install
 
 uninstall:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm
@@ -40,8 +41,8 @@ uninstall:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
-	cd notification-center
-	make uninstall
+	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm
+	[ ! -f /usr/local/cpanel/whostmgr/docroot/cgi/addon_notification-center.cgi ] || cd notification-center && make uninstall
 
 test: depend-all depend-test
 	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] || /usr/local/cpanel/3rdparty/bin/prove t/*.t
