@@ -65,7 +65,7 @@ sub send {
 
     my $subject = $args_hr->{'subject'};
     my $text    = ${ $args_hr->{'text_body'} };
-    # my $html    = ${ $args_hr->{'html_body'} };
+    my $html    = ${ $args_hr->{'html_body'} };
 
     # Send it
     my $time = time;
@@ -86,7 +86,7 @@ sub send {
         }
 	    require Cpanel::AdminBin::Serializer;
         open( my $fh, ">", $file ) || die "Couldn't open '$file': $!";
-        print $fh Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text } );
+        print $fh Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text, 'html' => $html } );
         close $fh;
     }
     catch {

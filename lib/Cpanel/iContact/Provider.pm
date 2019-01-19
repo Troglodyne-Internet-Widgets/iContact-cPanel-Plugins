@@ -9,6 +9,7 @@ use warnings;
 sub new {
     my $class = shift;
     my $text_body = 'HOLY CRAP THE AUTO-LAYOFF THING TRIGGERED';
+    my $html_body = "<p>$text_body</p>";
     my $self = {
         'contact' => {
             'XMPPUSERNAME'      => 'mr_t@a-team.gov',
@@ -23,6 +24,7 @@ sub new {
         'args' => {
             'subject'   => 'cPanel on Drugs',
             'text_body' => \$text_body, #nutty, I know
+            'html_body' => \$html_body,
             'to'        => [ 'cronspam@dev.null' ],
         }
     };

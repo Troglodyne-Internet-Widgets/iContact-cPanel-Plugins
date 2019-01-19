@@ -35,5 +35,5 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
     my %notifications = Cpanel::iContact::Provider::Local::Getter::get_all_notices( 'user' => $user );
     ok( scalar(keys(%notifications)), "Got the expected notifications from hash..." ) || diag explain \%notifications;
     like( (keys(%notifications))[0], qr/\d+/, "..and the hash key looks like we'd expect it to" ) || diag explain \%notifications;
-    is_deeply( [ sort keys(%{ $notifications{(keys(%notifications))[0]} }) ], [ 'subject', 'text' ], "%notifications{time} hashref has has the right keys" );
+    is_deeply( [ sort keys(%{ $notifications{(keys(%notifications))[0]} }) ], [ 'html', 'subject', 'text' ], "%notifications{time} hashref has has the right keys" );
 };
