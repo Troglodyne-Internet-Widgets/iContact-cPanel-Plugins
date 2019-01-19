@@ -9,13 +9,14 @@ use Test::More;
 use Test::Fatal;
 use File::Temp ();
 
-use Cpanel::iContact::Provider::Local ();
+use Cpanel::iContact::Provider::Local         ();
+use Cpanel::iContact::Provider::Local::Getter ();
 
 plan tests => 1;
 
 # First, let's mock out the parent, and other stuff we wouldn't wanna do in a unit test
 subtest "Provider bits work as expected ('unit' test)" => sub {
-
+    plan tests => 6;
     # Create tempdir for jamming stuff into
     my $tmp_obj = File::Temp->newdir();
     my $tmp_dir = $tmp_obj->dirname;
@@ -26,10 +27,12 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
     my $ex = exception { $spammer->send() };
     is( $ex, undef, "send doesn't throw on GreatSuccess" ) || diag explain $ex;
     my $user = getpwuid($<);
-    my @files = glob( "$tmp_dir/iContact_notices/$user/*.txt" );
+    my @files = glob( "$tmp_dir/iContact_notices/$user/*.json" );
     ok( scalar(@files), "Looks like a file was written..." ) || diag explain \@files;
+    like( $files[0], qr/\d\.json/, "..and it looks like we'd expect it to" ) || diag explain \@files;
 
-    # Thu-Dec-20-13:46:46-2018 
-    like( $files[0], qr/[A-Z][a-z]{2}-[A-Z][a-z]{2}-\d{2}-\d{2}:\d{2}:\d{2}-\d{4}\.txt/, "..and it looks like we'd expect it to" ) || diag explain \@files;
-    #diag `cat $files[0]`;
+    # Now let's check on them another way
+    my %notifications = Cpanel::iContact::Provider::Local::Getter::get_all_notices( 'user' => $user );
+    ok( scalar(keys(%notifications)), "Got the expected notifications added to dir..." ) || diag explain \%notifications;
+    like( (keys(%notifications))[0], qr/\d+/, "..and it looks like we'd expect it to" ) || diag explain \%notifications;
 };

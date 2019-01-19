@@ -68,10 +68,10 @@ sub send {
     # my $html    = ${ $args_hr->{'html_body'} };
 
     # Send it
-    my $time = localtime;
+    my $time = time;
     $time =~ tr/ /-/;
     my $user = getpwuid($<);
-    my $file = "$DIR/$user/$time.txt";
+    my $file = "$DIR/$user/$time.json";
     try {
         # Make the dir if it doesn't exist
         if( !-d "$DIR/$user" ) {
@@ -84,8 +84,9 @@ sub send {
                 };
             }
         }
+	    require Cpanel::AdminBin::Serializer;
         open( my $fh, ">", $file ) || die "Couldn't open '$file': $!";
-        print $fh "$subject\n\n$text\n";
+        print $fh Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text } );
         close $fh;
     }
     catch {
