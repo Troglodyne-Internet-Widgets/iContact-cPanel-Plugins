@@ -16,7 +16,7 @@ plan tests => 1;
 
 # First, let's mock out the parent, and other stuff we wouldn't wanna do in a unit test
 subtest "Provider bits work as expected ('unit' test)" => sub {
-    plan tests => 6;
+    plan tests => 7;
     # Create tempdir for jamming stuff into
     my $tmp_obj = File::Temp->newdir();
     my $tmp_dir = $tmp_obj->dirname;
@@ -33,6 +33,7 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
 
     # Now let's check on them another way
     my %notifications = Cpanel::iContact::Provider::Local::Getter::get_all_notices( 'user' => $user );
-    ok( scalar(keys(%notifications)), "Got the expected notifications added to dir..." ) || diag explain \%notifications;
-    like( (keys(%notifications))[0], qr/\d+/, "..and it looks like we'd expect it to" ) || diag explain \%notifications;
+    ok( scalar(keys(%notifications)), "Got the expected notifications from hash..." ) || diag explain \%notifications;
+    like( (keys(%notifications))[0], qr/\d+/, "..and the hash key looks like we'd expect it to" ) || diag explain \%notifications;
+    is_deeply( [ sort keys(%{ $notifications{(keys(%notifications))[0]} }) ], [ 'subject', 'text' ], "%notifications{time} hashref has has the right keys" );
 };
