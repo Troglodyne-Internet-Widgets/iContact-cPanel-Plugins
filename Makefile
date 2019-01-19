@@ -6,6 +6,8 @@ mkdir:
 install: mkdir depend-all
 	cp -f lib/Cpanel/iContact/Provider/Schema/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
 	cp -f lib/Cpanel/iContact/Provider/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/
+	cd notification-center
+	make install
 
 install-slack: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Slack.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
@@ -38,6 +40,8 @@ uninstall:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
+	cd notification-center
+	make uninstall
 
 test: depend-all depend-test
 	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] || /usr/local/cpanel/3rdparty/bin/prove t/*.t
