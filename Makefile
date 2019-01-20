@@ -1,12 +1,10 @@
-all: install install-slack install-xmpp install-discord install-notification-center
+all: depend-all install-slack install-xmpp install-discord install-notification-center
+
+install: all
 
 mkdir:
 	[ -d /var/cpanel/perl/Cpanel/iContact/Provider/Schema ] || mkdir -p /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
 	[ -d /var/cpanel/perl/Cpanel/iContact/Provider/Local ] || mkdir -p /var/cpanel/perl/Cpanel/iContact/Provider/Local/
-
-install: mkdir depend-all
-	cp -f lib/Cpanel/iContact/Provider/Schema/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/
-	cp -f lib/Cpanel/iContact/Provider/*.pm /var/cpanel/perl/Cpanel/iContact/Provider/
 
 install-slack: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Slack.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
@@ -30,15 +28,25 @@ install-notification-center: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Local/Getter.pm /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm
 	cd notification-center && make install
 
-uninstall:
+uninstall: uninstall-slack uninstall-irc uninstall-xmpp uninstall-discord uninstall-local
+
+uninstall-slack:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
+
+uninstall-irc:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/IRC.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/IRC.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/IRC.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/IRC.pm
+
+uninstall-xmpp:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/XMPP.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/XMPP.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm
+
+uninstall-discord:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
+
+uninstall-local:
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
 	[ ! -f /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm ] || rm /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm
