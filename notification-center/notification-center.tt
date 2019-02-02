@@ -20,7 +20,7 @@
 
 <style>
     .notificationDisplay, .notificationDisplay tr:hover {
-        background-color: inherit;
+        background-color: inherit !important;
     }
 </style>
 <table id="notificationsTable" class="table table-striped responsive-table" border="1" cellspacing="0" cellpadding="2" >
