@@ -17,11 +17,6 @@
 [% PROCESS '_pkg_hover.tmpl' -%]
 [% PROCESS '_ajaxapp_header.tmpl' -%]
 
-<style>
-    .table tbody tr:hover td, .table tbody tr:hover th, .table tbody tr:focus td, .table tbody tr:focus th {
-        background-color: inherit !important;
-    }
-</style>
 <table id="notificationsTable" class="table table-striped responsive-table" border="1" cellspacing="0" cellpadding="2" >
     <thead>
         <tr>
