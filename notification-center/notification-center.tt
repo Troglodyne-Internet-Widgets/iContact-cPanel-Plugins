@@ -35,7 +35,7 @@
         </tr>
         <tr style="display:none" id="[% notification %]">
             <td colspan=3>
-                <div style="margin: 0 auto;">
+                <div style="margin: 0 auto; width: 680px">
                     [% data.notifications.$notification.html %]
                 </div>
             </td>
