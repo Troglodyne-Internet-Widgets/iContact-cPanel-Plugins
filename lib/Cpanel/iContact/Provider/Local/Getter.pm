@@ -5,7 +5,7 @@ use warnings;
 
 # Specifically for the constant that is the dir
 use Cpanel::iContact::Provider::Local ();
-use Cpanel::JSON::XS                  ();
+use Cpanel::AdminBin::Serializer      ();
 
 =encoding utf-8
 
@@ -92,7 +92,7 @@ sub get_notice {
 	local $/;
 	my $file = $Cpanel::iContact::Provider::Local::DIR . "/$opts{'user'}/$time.json";
 	open my $fh, '<', $file or die "can't open $file: $!";
-    return Cpanel::JSON::XS::decode_json(<$fh>);
+    return Cpanel::AdminBin::Serializer::Load(<$fh>);
 }
 
 =head2 get_all_notices
