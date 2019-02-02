@@ -10,7 +10,7 @@
     stylesheets = ['/cjt/css/ajaxapp-min.css',
                    '/templates/common/revised_notices.min.css',
                    '/templates/packages/common.min.css',
-                   '/styles/unified_optimized.css'
+                   '/styles/unified_optimized.css',
                   ]
     extrastyle = ''
     include_legacy_stylesheets = 1
@@ -33,8 +33,8 @@
             <td class="timestamp">[% notification %]</td>
             <td><a class="button" href="javascript:toggleContentDisplay('[% notification %]')">Show/Hide</a></td>
         </tr>
-        <tr style="display:none" colspan=3 id="[% notification %]">
-            <td>
+        <tr style="display:none" id="[% notification %]">
+            <td colspan=3>
                 [% data.notifications.$notification.html %]
             </td>
         </tr>
@@ -56,7 +56,7 @@
 
     function toggleContentDisplay(id) {
         var dstatus   = document.getElementById(id).style.display;
-        var newstatus = dstatus === 'block' ? 'none' : 'block' 
+        var newstatus = dstatus === '' ? 'none' : ''
         document.getElementById(id).style.display = newstatus;
     }
 </script>
