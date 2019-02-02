@@ -24,6 +24,7 @@
             <td class="timestamp">[% notification %]</td>
             <td><a class="button" href="javascript:toggleContentDisplay('[% notification %]')">Show/Hide</a></td>
         </tr>
+		<tr></tr><!--Blank row to ensure table striping works properly-->
         <tr style="display:none" id="[% notification %]">
             <td colspan=3>
                 <div style="margin: 0 auto; width: 700px">
@@ -31,7 +32,6 @@
                 </div>
             </td>
         </tr>
-		<tr></tr><!--Blank row to ensure table striping works properly-->
         [% END %]
     </tbody>
 </table>
