@@ -5,6 +5,8 @@ package WHM::Plugin::NotificationCenter;
 use strict;
 use warnings;
 
+binmode STDOUT, ":utf8";
+
 use CGI qw/:standard/;
 print header();
 
