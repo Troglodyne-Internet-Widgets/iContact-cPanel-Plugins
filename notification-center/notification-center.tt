@@ -19,7 +19,7 @@
 [% PROCESS '_ajaxapp_header.tmpl' -%]
 
 <style>
-    .notificationDisplay, .notificationDisplay tr:hover {
+    .notificationDisplay, .notificationDisplay .table tbody tr:hover td {
         background-color: inherit !important;
     }
 </style>
