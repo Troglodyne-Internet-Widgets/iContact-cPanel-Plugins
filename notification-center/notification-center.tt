@@ -35,7 +35,7 @@
         </tr>
         <tr style="display:none" id="[% notification %]">
             <td colspan=3>
-                [% data.notifications.$notification.html %]
+                [% data.notifications.$notification.text %]
             </td>
         </tr>
         [% END %]
