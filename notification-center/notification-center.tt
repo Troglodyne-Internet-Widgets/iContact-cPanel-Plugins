@@ -55,5 +55,4 @@
     }
 </script>
 
-[% PROCESS '_ajaxapp_footer.tmpl' -%]
 [% END #wrapper -%]
