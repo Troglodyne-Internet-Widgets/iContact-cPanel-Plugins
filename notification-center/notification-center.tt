@@ -10,7 +10,6 @@
     stylesheets = ['/cjt/css/ajaxapp-min.css',
                    '/templates/common/revised_notices.min.css',
                    '/templates/packages/common.min.css',
-                   '/styles/unified_optimized.css',
                   ]
     extrastyle = ''
     include_legacy_stylesheets = 1
