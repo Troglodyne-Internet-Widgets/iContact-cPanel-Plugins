@@ -8,7 +8,11 @@
         breadcrumburl = '/cgi/addon_notification-center.cgi'
         theme = "bootstrap"
 %]
-
+<style>
+	#contentContainer {
+		background-color: white;
+	}
+</style>
 <table id="notificationsTable" class="table table-striped">
     <thead>
         <tr>
