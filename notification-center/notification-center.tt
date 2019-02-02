@@ -26,7 +26,7 @@
         </tr>
 		<tr></tr><!--Blank row to ensure table striping works properly-->
         <tr style="display:none" id="[% notification %]">
-            <td colspan=3>
+            <td colspan=3 style="background-color: white;">
                 <div style="margin: 0 auto; width: 700px">
                     [% data.notifications.$notification.html %]
                 </div>
