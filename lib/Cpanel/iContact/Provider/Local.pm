@@ -66,7 +66,7 @@ sub send {
     my $subject = $args_hr->{'subject'};
     my $text    = ${ $args_hr->{'text_body'} };
 	my $html    = ${ $args_hr->{'html_body'} };
-	$html =~ s:src=".*":src="/unprotected/cpanel/images/cp-logo.svg":;
+	$html =~ s:src=".*":src="/unprotected/cpanel/images/cp-logo.svg" style="width\:3rem":;
 
     # Send it
     my $time = time;
