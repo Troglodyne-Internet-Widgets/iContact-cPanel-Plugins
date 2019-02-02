@@ -8,8 +8,7 @@
 
 	SET styleSheets = [
 		rtl_bootstrap,
-		'libraries/bootstrap/optimized/css/bootstrap.min.css'
-	    '/libraries/fontawesome/css/font-awesome.min.css'
+		'../libraries/bootstrap/optimized/css/bootstrap.min.css'
 	];
 
     WRAPPER 'master_templates/master.tmpl'
