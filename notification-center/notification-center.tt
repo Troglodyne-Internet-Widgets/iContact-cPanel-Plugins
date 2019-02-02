@@ -46,15 +46,13 @@
 
 <script type="text/javascript">
     //Localize all the timestamps on the page
-    window.onload = function () {
-        var timestamps = document.querySelectorAll('.timestamp');
-        for (var i=0; i < timestamps.length; i++) {
-            var timestamp = timestamps[i].innerText;
-            var t = new Date(0)
-            t.setUTCSeconds(timestamp);
-            timestamps[i].innerText = t.toLocaleDateString() + " " + t.toLocaleTimeString();
-        }
-    };
+    var timestamps = document.querySelectorAll('.timestamp');
+    for (var i=0; i < timestamps.length; i++) {
+        var timestamp = timestamps[i].innerText;
+        var t = new Date(0)
+        t.setUTCSeconds(timestamp);
+        timestamps[i].innerText = t.toLocaleDateString() + " " + t.toLocaleTimeString();
+    }
 
     function toggleContentDisplay(id) {
         var dstatus   = document.getElementById(id).style.display;
