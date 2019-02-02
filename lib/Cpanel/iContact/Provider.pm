@@ -6,9 +6,10 @@ package Cpanel::iContact::Provider;
 use strict;
 use warnings;
 
+# Gawd, these curly quotes sure like to mojibake themselves
 sub new {
     my $class = shift;
-    my $text_body = 'HOLY CRAP THE AUTO-LAYOFF THING TRIGGERED';
+    my $text_body = 'HOLY CRAP THE “AUTO-LAYOFF” THING TRIGGERED';
     my $html_body = "<p>$text_body</p>";
     my $self = {
         'contact' => {
@@ -22,7 +23,7 @@ sub new {
             'IRCNICK'           => 'DevilBot',
         },
         'args' => {
-            'subject'   => 'cPanel on Drugs',
+            'subject'   => 'cPanel on “Drugs”',
             'text_body' => \$text_body, #nutty, I know
             'html_body' => \$html_body,
             'to'        => [ 'cronspam@dev.null' ],

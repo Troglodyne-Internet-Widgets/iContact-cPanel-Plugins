@@ -63,14 +63,9 @@ sub send {
 
     my @errs;
 
-    my $subject_copy = $args_hr->{'subject'};
-    my $text_copy    = ${ $args_hr->{'text_body'} };
-	my $html_copy    = ${ $args_hr->{'html_body'} };
-
-    require Encode;
-    my $subject      = Encode::decode_utf8( $subject_copy, $Encode::FB_QUIET );
-    my $text         = Encode::decode_utf8( $text_copy, $Encode::FB_QUIET );
-    my $html         = Encode::decode_utf8( $html_copy, $Encode::FB_QUIET );
+    my $subject = $args_hr->{'subject'};
+    my $text    = ${ $args_hr->{'text_body'} };
+	my $html    = ${ $args_hr->{'html_body'} };
 
     # Send it
     my $time = time;
@@ -89,9 +84,9 @@ sub send {
                 };
             }
         }
-	    require Cpanel::AdminBin::Serializer;
+	    require Cpanel::JSON::XS;
         open( my $fh, ">", $file ) || die "Couldn't open '$file': $!";
-        print $fh Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text, 'html' => $html } );
+        print $fh Cpanel::JSON::XS::encode_json( { 'subject' => $subject, 'text' => $text, 'html' => $html } );
         close $fh;
     }
     catch {

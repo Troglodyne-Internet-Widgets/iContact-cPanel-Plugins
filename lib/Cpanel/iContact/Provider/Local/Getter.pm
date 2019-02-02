@@ -5,7 +5,7 @@ use warnings;
 
 # Specifically for the constant that is the dir
 use Cpanel::iContact::Provider::Local ();
-use Cpanel::AdminBin::Serializer      ();
+use Cpanel::JSON::XS                  ();
 
 =encoding utf-8
 
@@ -58,7 +58,7 @@ UNIX Epoch timestamps sorted by latest date first.
 
 # Note, since there's only one hash param (for now) just ref second item in array
 sub get_notice_times {
-    return sort( map { substr( $_, rindex( $_, '/' ), -5 ) } grep { qr/\d+\.json/ } glob( $Cpanel::iContact::Provider::Local::DIR . "/$_[1]/*.json" ) );
+    return sort( map { substr( $_, rindex( $_, '/' ) + 1, -5 ) } grep { qr/\d+\.json/ } glob( $Cpanel::iContact::Provider::Local::DIR . "/$_[1]/*.json" ) );
 }
 
 =head2 get_notice
@@ -92,7 +92,7 @@ sub get_notice {
 	local $/;
 	my $file = $Cpanel::iContact::Provider::Local::DIR . "/$opts{'user'}/$time.json";
 	open my $fh, '<', $file or die "can't open $file: $!";
-    return Cpanel::AdminBin::Serializer::Load(<$fh>);
+    return Cpanel::JSON::XS::decode_json(<$fh>);
 }
 
 =head2 get_all_notices
@@ -122,7 +122,7 @@ time => notification contents.
 sub get_all_notices {
 	my $user = $_[1];
 	return map {
-		my $time = substr( $_, rindex( $_, '/' ), -5 ); $time => get_notice( $time, 'user' => $user );
+		my $time = substr( $_, rindex( $_, '/' ) + 1, -5 ); $time => get_notice( $time, 'user' => $user );
 	} grep {
 		qr/\d+\.json/
 	} glob( $Cpanel::iContact::Provider::Local::DIR . "/$user/*.json" );

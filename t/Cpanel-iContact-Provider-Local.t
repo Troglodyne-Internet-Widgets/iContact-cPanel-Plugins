@@ -7,6 +7,7 @@ use lib abs_path( dirname(__FILE__) . "/../lib" );
 
 use Test::More;
 use Test::Fatal;
+use Test::Deep;
 use File::Temp ();
 
 use Cpanel::iContact::Provider::Local         ();
@@ -34,6 +35,14 @@ subtest "Provider bits work as expected ('unit' test)" => sub {
     # Now let's check on them another way
     my %notifications = Cpanel::iContact::Provider::Local::Getter::get_all_notices( 'user' => $user );
     ok( scalar(keys(%notifications)), "Got the expected notifications from hash..." ) || diag explain \%notifications;
-    like( (keys(%notifications))[0], qr/\d+/, "..and the hash key looks like we'd expect it to" ) || diag explain \%notifications;
-    is_deeply( [ sort keys(%{ $notifications{(keys(%notifications))[0]} }) ], [ 'html', 'subject', 'text' ], "%notifications{time} hashref has has the right keys" );
+    my $hash_key = (keys(%notifications))[0];
+    like( $hash_key, qr/^\d+$/, "..and the hash key looks like we'd expect it to" ) || diag explain \%notifications;
+    my $model = {
+        $hash_key => {
+            'subject' => 'cPanel on “Drugs”',
+            'text'    => 'HOLY CRAP THE “AUTO-LAYOFF” THING TRIGGERED',
+            'html'    => '<p>HOLY CRAP THE “AUTO-LAYOFF” THING TRIGGERED</p>',
+        }
+    };
+    cmp_deeply( \%notifications, $model, "%notifications hashref has the expected return" ) || diag explain \%notifications;
 };
