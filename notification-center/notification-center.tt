@@ -49,7 +49,7 @@
     window.onload = function () {
         var timestamps = document.querySelectorAll('.timestamp');
         for (var i=0; i < timestamps.length; i++) {
-            var timestamp = timestamps[i].innerText.replace('/','');
+            var timestamp = timestamps[i].innerText;
             var t = new Date(0)
             t.setUTCSeconds(timestamp);
             timestamps[i].innerText = t.toLocaleDateString() + " " + t.toLocaleTimeString();
