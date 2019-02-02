@@ -63,9 +63,14 @@ sub send {
 
     my @errs;
 
-    my $subject = $args_hr->{'subject'};
-    my $text    = ${ $args_hr->{'text_body'} };
-	my $html    = ${ $args_hr->{'html_body'} };
+    my $subject_copy = $args_hr->{'subject'};
+    my $text_copy    = ${ $args_hr->{'text_body'} };
+    my $html_copy    = ${ $args_hr->{'html_body'} };
+
+    require Encode;
+    my $subject = Encode::decode_utf8( $subject_copy, $Encode::FB_QUIET );
+    my $text    = Encode::decode_utf8( $text_copy, $Encode::FB_QUIET );
+    my $html    = Encode::decode_utf8( $html_copy, $Encode::FB_QUIET );
 
     # Send it
     my $time = time;
