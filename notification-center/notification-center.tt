@@ -1,5 +1,5 @@
 [%
-    USE Whostmgr
+    USE Whostmgr;
 
     SET PAGE_BASE = '/cgi/addon_notification-center.cgi';
     SET PAGE_PATH = cp_security_token _ PAGE_BASE _ '/';
