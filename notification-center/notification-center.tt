@@ -19,7 +19,7 @@
 [% PROCESS '_ajaxapp_header.tmpl' -%]
 
 <style>
-    .table tbody tr:hover td {
+    .table tbody tr:hover td, .table tbody tr:hover th, .table tbody tr:focus td, .table tbody tr:focus th {
         background-color: inherit !important;
     }
 </style>
