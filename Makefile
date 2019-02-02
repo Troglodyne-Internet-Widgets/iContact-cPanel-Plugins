@@ -22,7 +22,7 @@ install-discord: mkdir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
 	cp -f lib/Cpanel/iContact/Provider/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
 
-install-notification-center: mkdir
+install-notification-center: mkdir depend-notification-center
 	cp -f lib/Cpanel/iContact/Provider/Schema/Local.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Local.pm
 	cp -f lib/Cpanel/iContact/Provider/Local.pm /var/cpanel/perl/Cpanel/iContact/Provider/Local.pm
 	cp -f lib/Cpanel/iContact/Provider/Local/Getter.pm /var/cpanel/perl/Cpanel/iContact/Provider/Local/Getter.pm
@@ -62,7 +62,10 @@ depend-irc:
 depend-xmpp:
 	perl -MNet::XMPP -MMozilla::CA -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA
 
-depend-all: depend-xmpp depend-irc
+depend-notification-center:
+	perl -MFile::Slurper -e 'exit 0;' || sudo cpan -i File::Slurper
+
+depend-all: depend-xmpp depend-irc depend-notification-center
 
 depend-test:
 	perl -MTest::More -MTest::Fatal -MTest::MockModule -MFile::Temp -MConfig::Simple -MHTTP::Tiny::UA -MHTTP::Tiny::UA::Response -e 'exit 0;' || sudo cpan -i Test::More Test::Fatal Test::MockModule Config::Simple HTTP::Tiny::UA HTTP::Tiny::UA::Response File::Temp

@@ -85,9 +85,8 @@ sub send {
             }
         }
 	    require Cpanel::AdminBin::Serializer;
-        open( my $fh, ">", $file ) || die "Couldn't open '$file': $!";
-        print $fh Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text, 'html' => $html } );
-        close $fh;
+        require File::Slurper;
+        File::Slurper::write_binary( $file, Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text, 'html' => $html } ) );
     }
     catch {
         require Cpanel::Exception;
