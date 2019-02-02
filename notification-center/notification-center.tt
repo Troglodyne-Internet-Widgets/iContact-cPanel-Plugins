@@ -18,7 +18,12 @@
 [% PROCESS '_pkg_hover.tmpl' -%]
 [% PROCESS '_ajaxapp_header.tmpl' -%]
 
-<table class="table table-striped responsive-table" border="1" cellspacing="0" cellpadding="2" >
+<style>
+    .notificationDisplay, .notificationDisplay tr:hover {
+        background-color: inherit;
+    }
+</style>
+<table id="notificationsTable" class="table table-striped responsive-table" border="1" cellspacing="0" cellpadding="2" >
     <thead>
         <tr>
             <td>[% locale.maketext('Notification') %]</td>
@@ -34,7 +39,7 @@
             <td><a class="button" href="javascript:toggleContentDisplay('[% notification %]')">Show/Hide</a></td>
         </tr>
         <tr style="display:none" id="[% notification %]">
-            <td colspan=3 style="background-color: white !important;">
+            <td colspan=3 class="notificationDisplay">
                 <div style="margin: 0 auto; width: 700px">
                     [% data.notifications.$notification.html %]
                 </div>
