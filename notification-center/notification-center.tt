@@ -1,20 +1,16 @@
 [% USE Whostmgr -%]
 [% WRAPPER 'master_templates/master.tmpl'
     app_key = 'Notification Center'
-    header = 'Notification Center'
+    header = locale.maketext('Notification Center')
     icon = '/addon_plugins/nfcenter.png'
     breadcrumburl = '/cgi/addon_notification-center.cgi'
-    skipbreadcrumb = 0
     theme = "bootstrap"
     show_upgrade_message = 1
     stylesheets = [
         '/libraries/fontawesome/css/font-awesome.min.css',
         Whostmgr.find_file_url('/3rdparty/bootstrap-rtl/optimized/dist/css/bootstrap-rtl.min.css'),
     ]
-    extrastyle = ''
 -%]
-[% PROCESS '_pkg_hover.tmpl' -%]
-[% PROCESS '_ajaxapp_header.tmpl' -%]
 
 <table id="notificationsTable" class="table table-striped responsive-table" border="1" cellspacing="0" cellpadding="2" >
     <thead>
