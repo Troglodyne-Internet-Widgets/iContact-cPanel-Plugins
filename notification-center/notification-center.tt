@@ -1,15 +1,17 @@
 [% USE Whostmgr -%]
+
+ SET PAGE_BASE = '/cgi/addon_notification-center.cgi';
+ SET PAGE_PATH = cp_security_token _ PAGE_BASE _ '/';
+ SET BASE_URL = (Whostmgr.ENV.HTTPS == 'on' ? 'https://' : 'http://') _ Whostmgr.ENV.HTTP_HOST _ ':' _ Whostmgr.ENV.SERVER_PORT _ PAGE_PATH;
+
 [% WRAPPER 'master_templates/master.tmpl'
     app_key = 'Notification Center'
     header = locale.maketext('Notification Center')
     icon = '/addon_plugins/nfcenter.png'
-    breadcrumburl = '/cgi/addon_notification-center.cgi'
+    breadcrumburl = PAGE_BASE
+    base = BASE_URL
     theme = "bootstrap"
-    show_upgrade_message = 1
-    stylesheets = [
-        '/libraries/fontawesome/css/font-awesome.min.css',
-        Whostmgr.find_file_url('/3rdparty/bootstrap-rtl/optimized/dist/css/bootstrap-rtl.min.css'),
-    ]
+    CJT2_EXCLUSIVE = 0
 -%]
 
 <table id="notificationsTable" class="table table-striped responsive-table" border="1" cellspacing="0" cellpadding="2" >
