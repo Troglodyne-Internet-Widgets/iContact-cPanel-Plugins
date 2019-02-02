@@ -1,4 +1,4 @@
-all: depend-all install-slack install-xmpp install-discord install-notification-center
+all: depend-all install-slack install-xmpp install-discord install-irc install-notification-center
 
 install: all
 
