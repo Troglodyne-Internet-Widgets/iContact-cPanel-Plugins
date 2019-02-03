@@ -68,10 +68,6 @@ sub send {
 	my $html    = ${ $args_hr->{'html_body'} };
 	$html =~ s:src=".*":src="/unprotected/cpanel/images/cp-logo.svg" style="width\:3rem":;
 
-	require Text::Iconv;
-	my $converter = Text::Iconv->new("UTF-8", "ASCII");
-	$html = $converter->convert($html);
-
     # Send it
     my $time = time;
     $time =~ tr/ /-/;
@@ -89,9 +85,10 @@ sub send {
                 };
             }
         }
-	    require Cpanel::AdminBin::Serializer;
+	    require JSON::MaybeXS;
         require File::Slurper;
-        File::Slurper::write_binary( $file, Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text, 'html' => $html } ) );
+		my $encoder = JSON::MaybeXS->new( utf8 => 1 );
+        File::Slurper::write_binary( $file, $encoder->encode( { 'subject' => $subject, 'text' => $text, 'html' => $html } ) );
     }
     catch {
         require Cpanel::Exception;

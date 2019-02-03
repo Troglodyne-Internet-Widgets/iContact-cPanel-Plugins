@@ -63,7 +63,7 @@ depend-xmpp:
 	perl -MNet::XMPP -MMozilla::CA -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA
 
 depend-notification-center:
-	perl -MFile::Slurper -e 'exit 0;' || sudo cpan -i File::Slurper
+	perl -MFile::Slurper -MJSON::MaybeXS -e 'exit 0;' || sudo cpan -i File::Slurper JSON::MaybeXS
 
 depend-all: depend-xmpp depend-irc depend-notification-center
 
