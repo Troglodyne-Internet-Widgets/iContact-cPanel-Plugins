@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 use CGI qw/:standard/;
-print header();
+print header(-charset => 'UTF-8');
 
 use Cpanel::Template;
 
