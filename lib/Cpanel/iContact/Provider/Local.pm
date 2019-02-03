@@ -85,10 +85,9 @@ sub send {
                 };
             }
         }
-	    require JSON::MaybeXS;
+	    require Cpanel::AdminBin::Serializer;
         require File::Slurper;
-		my $encoder = JSON::MaybeXS->new( utf8 => 1 );
-        File::Slurper::write_binary( $file, $encoder->encode( { 'subject' => $subject, 'text' => $text, 'html' => $html } ) );
+        File::Slurper::write_binary( $file, Cpanel::AdminBin::Serializer::Dump( { 'subject' => $subject, 'text' => $text, 'html' => $html } ) );
     }
     catch {
         require Cpanel::Exception;
