@@ -68,10 +68,6 @@ sub send {
 	my $html    = ${ $args_hr->{'html_body'} };
 	$html =~ s:src=".*":src="/unprotected/cpanel/images/cp-logo.svg" style="width\:3rem":;
 
-	require Text::Iconv;
-	my $converter = Text::Iconv->new("UTF-8", "ASCII");
-	$html = $converter->convert($html);
-
     # Send it
     my $time = time;
     $time =~ tr/ /-/;
