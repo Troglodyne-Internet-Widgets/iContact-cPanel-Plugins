@@ -61,6 +61,10 @@ Slack Incoming Webhook URL(s): URL created for sending notifications to the dest
 <br />In order to create an incoming webhook for the channel(s)/user(s) you wish to notify, please go to 'Browse apps > Custom Integrations > Incoming WebHooks > New configuration'
 in Slack's 'App Directory' for your team.
 HALP
+    my $help2 = <<HELP;
+Slack: Use concise notifications (Subject Only) -- If true, will discard the message body before send in order to make the message a bit more compact.
+In the future this may provide a link back to WHM in order to display the full notification.
+HELP
     return {
         'CONTACTSLACK' => {
             'name'     => 'Slack',
@@ -78,7 +82,12 @@ HALP
             },
             'label' => 'Slack Incoming Webhook URL(s)',
             'help'  => $help,
-        }
+        },
+        'SLACKCOMPACT' => {
+            'type'     => 'binary',
+            'label' => 'Slack: Use concise notifications (Subject Only)',
+            'help' => $help2,
+        },
     };
 }
 
