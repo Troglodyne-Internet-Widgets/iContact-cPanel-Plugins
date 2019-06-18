@@ -71,7 +71,7 @@ sub send {
     my $dump_hr = {
         'text'        => $subject,
     };
-    $dump_hr->{'attachments'} = [ { "text" => $message } ] if $contact_hr->{'SLACKCOMPACT'};
+    $dump_hr->{'attachments'} = [ { "text" => $message } ] if !$contact_hr->{'SLACKCOMPACT'};
     my $message_json = Cpanel::AdminBin::Serializer::Dump($dump_hr);
 
     # Send it
