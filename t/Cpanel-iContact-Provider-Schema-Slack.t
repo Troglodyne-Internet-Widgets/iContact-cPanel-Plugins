@@ -13,7 +13,7 @@ use Cpanel::iContact::Provider::Schema::Slack ();
 plan tests => 2;
 
 subtest "Settings getter method performs as expected" => sub {
-    my $model = [ 'CONTACTSLACK' ];
+    my $model = [ 'CONTACTSLACK', 'SLACKCOMPACT' ];
     my $settings = Cpanel::iContact::Provider::Schema::Slack::get_settings();
     is_deeply( [ sort keys( %{$settings} ) ], $model, "Settings returned look OK so far" );
     foreach my $key (@$model) {
