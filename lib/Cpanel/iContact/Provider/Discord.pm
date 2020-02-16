@@ -29,7 +29,7 @@ Provide backend accessor for the Discord iContact module.
 
 =head2 send
 
-Sends off the notification over to your hipchat room/user
+Sends off the notification over to your Discord channel/user
 
 =over 2
 
@@ -68,9 +68,13 @@ sub send {
     my $message = ${ $args_hr->{'text_body'} };
 
     require Cpanel::AdminBin::Serializer;
+
+    # GitHub issue #18 -- Discord max message length is 2000 chars.
+    # As such , truncate at 1996, add ellipsis (3 chars).
+    # Why not 1997? I want to avoid fencepost errors.
     my $message_json = Cpanel::AdminBin::Serializer::Dump(
         {
-            'content'     => "$subject\n\n$message",
+            'content'     => substr( "$subject\n\n$message", 0, 1996 ) . "...",
         }
     );
 
