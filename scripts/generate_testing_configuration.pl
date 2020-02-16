@@ -10,7 +10,6 @@ unshift @INC, "$gitdir/lib";
 
 print "Please input the provider name you are attempting to test: ";
 chomp( my $input = <STDIN> );
-$input = uc($input);
 
 my $module_name = $input;
 if( $input eq 'SLACK' ) {
