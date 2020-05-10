@@ -3,3 +3,4 @@ Adding this file here, as some of the imagery used in the Schema modules were no
 * IRC: Released under the [Creative Commons Attribution-Share Alike 3.0 Unported license](https://github.com/fabianalexisinostroza/Antu/blob/master/LICENSE "CC-SA 3.0 Unported"). [Source](https://commons.wikimedia.org/wiki/File:Antu_irc.svg "Wikimedia")
 * Slack: Released under the terms of [Slack's Branding Guidelines](https://slack.com/brand-guidelines "Slack's Branding Guidelines"). [Source](https://brandfolder.com/slack "Slack Icons @ BrandFolder")
 * Discord: Released under the terms of [Discord's Branding Guidelines](https://discordapp.com/branding "Discord's Branding Guidelines"). [Source](https://discordapp.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg)
+* Telegram: Released under the [GNU General Public License, v3](https://github.com/zhukov/webogram/blob/master/LICENSE). [Source](https://github.com/zhukov/webogram/blob/master/app/img/icons/icon.svg)
