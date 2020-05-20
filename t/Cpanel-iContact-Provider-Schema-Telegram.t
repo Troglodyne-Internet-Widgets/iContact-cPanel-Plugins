@@ -13,7 +13,7 @@ use Cpanel::iContact::Provider::Schema::Telegram ();
 plan tests => 2;
 
 subtest "Settings getter method performs as expected" => sub {
-    my $model = [ 'CONTACTTELEGRAM' ];
+    my $model = [ 'CONTACTTELEGRAM', 'TELEGRAMBOTTOKEN' ];
     my $settings = Cpanel::iContact::Provider::Schema::Telegram::get_settings();
     is_deeply( [ sort keys( %{$settings} ) ], $model, "Settings returned look OK so far" );
     foreach my $key (@$model) {
@@ -22,7 +22,8 @@ subtest "Settings getter method performs as expected" => sub {
             '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11', "Valid values passed to checkval subroutine of '$key' assumed GreatSuccess"
         ) if ref $settings->{$key}{'checkval'} eq 'CODE';
     }
-    is( $settings->{'CONTACTTELEGRAM'}{'checkval'}->('    '), '', "Invalid values passed to checkval subroutine of 'CONTACTTELEGRAM' engaged Maximum NO" );
+    is( $settings->{'CONTACTTELEGRAM'}{'checkval'}->('    '), '', "Invalid values passed to checkval subroutine of 'CONTACTTELEGRAM' silently got smashed" );
+    is( eval { $settings->{'TELEGRAMBOTTOKEN'}{'checkval'}->(' NeenerNeenerNotAToken') }, undef, "Invalid values passed to checkval subroutine of 'CONTACTTELEGRAM' engaged Maximum NO" );
 };
 
 my $config_model = { 'default_level' => 'All', 'display_name' => 'Telegram', 'icon' => ignore() };

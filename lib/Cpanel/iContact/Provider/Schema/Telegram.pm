@@ -62,9 +62,25 @@ Telegram Bot Token: Token created for sending notifications to the bot you confi
 HALP
     return {
         'CONTACTTELEGRAM' => {
-            'name'     => 'Telegram',
-            'shadow'   => 1,
+            'name'     => 'Telegram Destinations',
+            'shadow'   => 0,
             'type'     => 'text',
+            'checkval' => sub {
+                my $value = shift();
+                $value =~ s/^\s+|\s+$//g; # Trim
+
+                return $value if $value eq q{};
+
+                return $value;
+            },
+            'label' => 'Telegram Destinations',
+            'help'  => "The group(s)/user(s) you wish your Telegram bot to notify, separated by comma.",
+        },
+        'TELEGRAMBOTTOKEN' => {
+            'name'     => 'Telegram Bot Token',
+            'label'    => 'Telegram Bot Token',
+            'help'     => $help,
+            'shadow'   => 1,
             'checkval' => sub {
                 my $value = shift();
                 $value =~ s/^\s+|\s+$//g; # Trim
@@ -76,9 +92,7 @@ HALP
                 }
                 return $value;
             },
-            'label' => 'Telegram Bot Token',
-            'help'  => $help,
-        }
+        },
     };
 }
 

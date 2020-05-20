@@ -1,4 +1,4 @@
-package Cpanel::iContact::Provider::Discord;
+package Cpanel::iContact::Provider::Telegram;
 
 use strict;
 use warnings;
@@ -11,25 +11,25 @@ use Try::Tiny;
 
 =head1 NAME
 
-Cpanel::iContact::Provider::Discord - Backend for the Discord iContact module
+Cpanel::iContact::Provider::Telegram - Backend for the Telegram iContact module
 
 =head1 SYNOPSIS
 
-    use Cpanel::iContact::Provider::Discord;
+    use Cpanel::iContact::Provider::Telegram;
 
-    my $notifier = Cpanel::iContact::Provider::Discord->new();
+    my $notifier = Cpanel::iContact::Provider::Telegram->new();
     $notifier->send();
 
 
 =head1 DESCRIPTION
 
-Provide backend accessor for the Discord iContact module.
+Provide backend accessor for the Telegram iContact module.
 
 =cut
 
 =head2 send
 
-Sends off the notification over to your Discord channel/user
+Sends off the notification over to your Telegram channel/user
 
 =over 2
 
@@ -69,7 +69,7 @@ sub send {
 
     require Cpanel::AdminBin::Serializer;
 
-    # GitHub issue #18 -- Discord max message length is 2000 chars.
+    # GitHub issue #18 -- Telegram max message length is 2000 chars.
     # As such , truncate at 1996, add ellipsis (3 chars).
     # Why not 1997? I want to avoid fencepost errors.
     my $message_json = Cpanel::AdminBin::Serializer::Dump(
