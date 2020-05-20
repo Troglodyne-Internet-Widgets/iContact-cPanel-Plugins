@@ -68,18 +68,21 @@ sub send {
     my $api = WWW::Telegram::BotAPI->new(
         token => $self->{'contact'}{'TELEGRAMBOTTOKEN'},
     );
-    $api->getMe(); # Should explode if bogus?
+
+    # Test the auth. Will die if it fails.
+    $api->getMe();
 
     my $subject = $args_hr->{'subject'};
     my $message = $args_hr->{'text_body'};
+    print $message;
 
     # Send it
     foreach my $destination ( @{ $args_hr->{'to'} } ) {
         try {
-            $api->sendMessage(
+            $api->sendMessage({
                 'chat_id' => $destination,
-                'text'    => $message,
-            );
+                'text'    => $$message,
+            });
         }
         catch {
             require Cpanel::Exception;
