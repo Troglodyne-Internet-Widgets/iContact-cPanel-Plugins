@@ -59,30 +59,27 @@ sub send {
     my $args_hr    = $self->{'args'};
     my $contact_hr = $self->{'contact'};
 
+    my @missing = grep { !defined $self->{'contact'}{$_} } qw{TELEGRAMBOTTOKEN};
+    die "Kit not complete! Missing: " . join( ", ", @missing ) if scalar( @missing );
+
     my @errs;
 
-    require Cpanel::HTTP::Client;
-    my $ua = Cpanel::HTTP::Client->new( 'default_headers' => { 'content-type' => 'application/json' } )->die_on_http_error();
+    require WWW::Telegram::BotAPI;
+    my $api = WWW::Telegram::BotAPI->new(
+        token => $self->{'contact'}{'TELEGRAMBOTTOKEN'},
+    );
+    $api->getMe(); # Should explode if bogus?
 
     my $subject = $args_hr->{'subject'};
-    my $message = ${ $args_hr->{'text_body'} };
-
-    require Cpanel::AdminBin::Serializer;
-
-    # GitHub issue #18 -- Telegram max message length is 2000 chars.
-    # As such , truncate at 1996, add ellipsis (3 chars).
-    # Why not 1997? I want to avoid fencepost errors.
-    my $message_json = Cpanel::AdminBin::Serializer::Dump(
-        {
-            'content'     => substr( "$subject\n\n$message", 0, 1996 ) . "...",
-        }
-    );
+    my $message = $args_hr->{'text_body'};
 
     # Send it
     foreach my $destination ( @{ $args_hr->{'to'} } ) {
         try {
-            my $res = $ua->request( 'POST', $destination, { 'content' => $message_json } );
-            die( sprintf "Error %d: %s", $res->status(), $res->reason() ) if !$res->success();
+            $api->sendMessage(
+                'chat_id' => $destination,
+                'text'    => $message,
+            );
         }
         catch {
             require Cpanel::Exception;

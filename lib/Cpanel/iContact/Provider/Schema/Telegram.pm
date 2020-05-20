@@ -74,7 +74,7 @@ HALP
                 return $value;
             },
             'label' => 'Telegram Destinations',
-            'help'  => "The group(s)/user(s) you wish your Telegram bot to notify, separated by comma.",
+            'help'  => "The group(s)/user(s) you wish your Telegram bot to notify, separated by comma. Example: \@bogusbogus",
         },
         'TELEGRAMBOTTOKEN' => {
             'name'     => 'Telegram Bot Token',
