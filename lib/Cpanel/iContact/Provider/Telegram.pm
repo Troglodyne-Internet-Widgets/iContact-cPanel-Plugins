@@ -64,19 +64,32 @@ sub send {
 
     my @errs;
 
+    # Telegram max message length is 4096 chars.
+    # As such , truncate at 4092, add ellipsis (3 chars).
+    # Why not 4093? I want to avoid fencepost errors.
+    # Also, mojibake worries... oof
+    require Encode;
+    my $subject      = Encode::decode_utf8( $args_hr->{'subject'}, $Encode::FB_QUIET );
+    my $body         = Encode::decode_utf8( ${$args_hr->{'text_body'}}, $Encode::FB_QUIET );
+    my $message = substr( "$subject\n$body", 0, 4092 );
+    $message .= '...' if length $message == 4092;
+
+    # Disgusting, but whatever. We are about to have some fun here boyos
+    # First, gotta load our libs
+    # Second, the mojo that comes with cP is titanic.
+    # Mojo you install from cpan won't work with cP binaries
+    # Disaster all around.
+    # Get around it by forcing the module into LWP mode, lol
+    push @INC, '/usr/local/share/perl5';
     require WWW::Telegram::BotAPI;
     my $api = WWW::Telegram::BotAPI->new(
-        token => $self->{'contact'}{'TELEGRAMBOTTOKEN'},
+        token     => $self->{'contact'}{'TELEGRAMBOTTOKEN'},
+        force_lwp => 1,
     );
 
     # Test the auth. Will die if it fails.
     $api->getMe();
 
-    # Telegram max message length is 4096 chars.
-    # As such , truncate at 4092, add ellipsis (3 chars).
-    # Why not 4093? I want to avoid fencepost errors.
-    my $message = substr( $args_hr->{'subject'} . "\n" . ${$args_hr->{'text_body'}}, 0, 4092 );
-    $message .= '...' if length $message == 4092;
 
     # Send it
     foreach my $destination ( @{ $args_hr->{'to'} } ) {
@@ -100,8 +113,7 @@ sub send {
     }
 
     if (@errs) {
-        use Data::Dumper;
-        print Dumper(\@errs);
+
         # Module should already be loaded above
         die Cpanel::Exception::create( 'Collection', [ exceptions => \@errs ] );
     }
