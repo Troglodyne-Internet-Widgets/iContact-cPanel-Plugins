@@ -43,7 +43,10 @@ depend-irc:
 depend-xmpp:
 	perl -MNet::XMPP -MMozilla::CA -e 'exit 0;' || sudo cpan -i Net::XMPP Mozilla::CA
 
-depend-all: depend-xmpp depend-irc
+depend-telegram:
+	perl -MWWW::Telegram::BotAPI -e 'exit 0;' || sudo cpan -i WWW::Telegram::BotAPI
+
+depend-all: depend-xmpp depend-irc depend-telegram
 
 depend-test:
 	perl -MTest::More -MTest::Fatal -MTest::MockModule -MTest::Deep -MConfig::Simple -MHTTP::Tiny::UA -MHTTP::Tiny::UA::Response -e 'exit 0;' || sudo cpan -i Test::More Test::Fatal Test::MockModule Test::Deep Config::Simple HTTP::Tiny::UA HTTP::Tiny::UA::Response
