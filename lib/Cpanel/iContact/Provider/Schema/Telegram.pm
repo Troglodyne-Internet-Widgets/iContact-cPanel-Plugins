@@ -57,9 +57,17 @@ tweak settings.
 
 sub get_settings {
     my $help = <<HALP;
-Telegram Bot Token: Token created for sending notifications to the bot you configured for sending cPanel & WHM Notifications to users in Telegram, separated by commas.
-<br>In order to create a token for your bot, please message the BotFather in Telegram and it will make one for you.
+<strong>Telegram Bot Token:</strong><br>
+Token created for authenticating as the bot you created for sending cPanel & WHM Notifications to users in Telegram.
+<br>In order to create a token for your bot, please message the <a href="https://core.telegram.org/bots#6-botfather">BotFather</a> in Telegram and it will make one for you.
 HALP
+    my $halp = <<HELP;
+<strong>Telegram Destinations:</strong><br>
+The group(s)/user(s) you wish your Telegram bot to notify, separated by comma.<br>
+Public chat rooms can be mentioned by their '\@' name, but individual users, groups or private chat rooms <i>must</i> be referenced by numeric ID.<br>
+Getting these numeric IDs can be a rather involved process, so I have created a video tutorial for doing so <a href="https://troglodyne.net">here</a>.<br><br>
+<i>Example</i>: \@bogusPublicChannel,123456789
+HELP
     return {
         'CONTACTTELEGRAM' => {
             'name'     => 'Telegram Destinations',
@@ -74,22 +82,19 @@ HALP
                 return $value;
             },
             'label' => 'Telegram Destinations',
-            'help'  => "The group(s)/user(s) you wish your Telegram bot to notify, separated by comma. Example: \@bogusbogus",
+            'help'  => $halp,
         },
         'TELEGRAMBOTTOKEN' => {
             'name'     => 'Telegram Bot Token',
             'label'    => 'Telegram Bot Token',
             'help'     => $help,
             'shadow'   => 1,
+            'type'     => 'password',
             'checkval' => sub {
                 my $value = shift();
                 $value =~ s/^\s+|\s+$//g; # Trim
 
                 return $value if $value eq q{};
-
-                if($value !~ m/^[0-9]+:[A-Z]{3}-[A-Z]{3}[A-Za-z0-9]+-[A-Za-z0-9]+$/ ) {
-                    die "Bogus value, neener neener";
-                }
                 return $value;
             },
         },
