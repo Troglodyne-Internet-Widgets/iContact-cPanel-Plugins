@@ -72,16 +72,18 @@ sub send {
     # Test the auth. Will die if it fails.
     $api->getMe();
 
-    my $subject = $args_hr->{'subject'};
-    my $message = $args_hr->{'text_body'};
-    print $message;
+    # Telegram max message length is 4096 chars.
+    # As such , truncate at 4092, add ellipsis (3 chars).
+    # Why not 4093? I want to avoid fencepost errors.
+    my $message = substr( $args_hr->{'subject'} . "\n" . ${$args_hr->{'text_body'}}, 0, 4092 );
+    $message .= '...' if length $message == 4092;
 
     # Send it
     foreach my $destination ( @{ $args_hr->{'to'} } ) {
         try {
             $api->sendMessage({
-                'chat_id' => $destination,
-                'text'    => $$message,
+                'chat_id'    => $destination,
+                'text'       => $message,
             });
         }
         catch {
@@ -98,7 +100,8 @@ sub send {
     }
 
     if (@errs) {
-
+        use Data::Dumper;
+        print Dumper(\@errs);
         # Module should already be loaded above
         die Cpanel::Exception::create( 'Collection', [ exceptions => \@errs ] );
     }

@@ -18,19 +18,18 @@ plan tests => 2;
 
 # First, let's mock out the parent, and other stuff we wouldn't wanna do in a unit test
 subtest "Provider bits work as expected ('unit' test)" => sub {
-    pass("WIP");
-    return;
     my $text_scalar = 'lol, jk';
     my $send_args   = { 'subject' => "[test.host.tld] YOUR COMIC BOOKS ARE DYING!!!1", 'text_body' => \$text_scalar, 'to' => [ 'SalinasPunishmentRoom', '@cPSaurus' ] };
-    my $contact_cfg = {};
-    my $ua_mocker = Test::MockModule->new("Cpanel::HTTP::Client");
-    $ua_mocker->mock( 'request' => sub { return bless {}, "Cpanel::HTTP::Client::Response"; } );
-    my $resp_mocker = Test::MockModule->new("Cpanel::HTTP::Client::Response");
-    $resp_mocker->mock( 'success' => sub { return 1; }, 'status' => sub { return 200; }, 'reason' => sub { return 'OK'; } );
+    my $contact_cfg = { 'TELEGRAMBOTTOKEN' => '420SWAGYOLO69696969' };
+    my $ua_mocker = Test::MockModule->new("WWW::Telegram::BotAPI");
+
+    # Mock has to be used instead of redefine due to AUTOLOAD
+    $ua_mocker->mock( 'getMe' => sub {}, 'sendMessage' => sub {} );
 
     isa_ok( my $spammer = Cpanel::iContact::Provider::Telegram->new(), "Cpanel::iContact::Provider::Telegram" );
+    $spammer->{'contact'} = $contact_cfg;
     is( exception { $spammer->send() }, undef, "send doesn't throw on GreatSuccess" );
-    $resp_mocker->mock( 'success' => sub { return 0; }, 'status' => sub { return 500; }, 'reason' => sub { return 'ENOHUGS'; } );
+    $ua_mocker->mock( 'getMe' => sub { die "401 Unauthorized" } );
     isnt( exception { $spammer->send() }, undef, "send throws whenever anything goes wrong" );
 };
 
