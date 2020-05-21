@@ -7,7 +7,7 @@ Current plugins:
 * IRC   -- New provider, needs more testing by users out in the wild. "Works for Me"
 * Slack -- Works presuming you have an incoming WebHook URL, much like CpanelRicky's MatterMost plugin.
 * Discord -- Similar to Slack, use an incoming WebHook URL.
-* Telegram -- Works, though getting the right numeric ID for the user/group you want to message may be tricky.
+* Telegram -- Works, though getting the right numeric ID for the user/group you want to message may be tricky. An instructional video has been posted [here](https://www.youtube.com/watch?v=vnCFlu2KzhI&feature=youtu.be) to assist you with getting this all setup.
 
 Installation and Use:
 ---------------------
