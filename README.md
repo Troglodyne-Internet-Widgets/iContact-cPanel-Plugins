@@ -9,6 +9,9 @@ Current plugins:
 * Discord -- Similar to Slack, use an incoming WebHook URL.
 * Telegram -- Works, though getting the right numeric ID for the user/group you want to message may be tricky. An instructional video has been posted [here](https://www.youtube.com/watch?v=vnCFlu2KzhI&feature=youtu.be) to assist you with getting this all setup.
 
+If you like this plugin, consider sending a a few dollars this way:
+https://paypal.me/troglodyne
+
 Installation and Use:
 ---------------------
 * Clone this repo with git onto a cPanel host of at least 11.64+.
