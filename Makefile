@@ -23,6 +23,10 @@ install-discord: install-dir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
 	cp -f lib/Cpanel/iContact/Provider/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
 
+install-telegram: depend-telegram
+	cp -f lib/Cpanel/iContact/Provider/Schema/Telegram.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Telegram.pm
+	cp -f lib/Cpanel/iContact/Provider/Telegram.pm /var/cpanel/perl/Cpanel/iContact/Provider/Telegram.pm
+
 uninstall:
 	rm /var/cpanel/perl/Cpanel/iContact/Provider/Slack.pm
 	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Slack.pm
@@ -32,6 +36,8 @@ uninstall:
 	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/XMPP.pm
 	rm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
 	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
+	rm /var/cpanel/perl/Cpanel/iContact/Provider/Telegram.pm
+	rm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Telegram.pm
 
 test: depend-all depend-test
 	[ ! -x /usr/local/cpanel/3rdparty/bin/prove ] || /usr/local/cpanel/3rdparty/bin/prove t/*.t
