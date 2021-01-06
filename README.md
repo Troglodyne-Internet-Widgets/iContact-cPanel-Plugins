@@ -67,4 +67,4 @@ Same goes for the IRC or Slack provider... use the same keys as in the schema mo
 CONTACT
 -------
 As always, if you feel there's a bug, please file an issue on the tracker.
-If you want to chat, hit up _teodesian_ on the [teodesian Discord Server](https://discord.gg/4tMXEWXs47).
+If you want to chat about it, hop on the Matrix Chat server for troglodyne. Instructions here: https://chat.troglodyne.net.
