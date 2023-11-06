@@ -23,7 +23,7 @@ install-discord: install-dir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Discord.pm
 	cp -f lib/Cpanel/iContact/Provider/Discord.pm /var/cpanel/perl/Cpanel/iContact/Provider/Discord.pm
 
-install-telegram: depend-telegram
+install-telegram: depend-telegram install-dir
 	cp -f lib/Cpanel/iContact/Provider/Schema/Telegram.pm /var/cpanel/perl/Cpanel/iContact/Provider/Schema/Telegram.pm
 	cp -f lib/Cpanel/iContact/Provider/Telegram.pm /var/cpanel/perl/Cpanel/iContact/Provider/Telegram.pm
 
